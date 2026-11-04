@@ -2,27 +2,47 @@
 
 ## Sistem Informasi Manajemen UKM Polytechnic Linux Community
 
+  ---------------------------------------------------------------------
+  Informasi                          Keterangan
+  ---------------------------------- ----------------------------------
+  Nama produk                        Sistem Informasi Manajemen UKM
+                                     Polytechnic Linux Community
+
+  Modul utama                        Manajemen Program Kerja dan Sistem
+                                     Pendukung Keputusan (SPK) SAW
+
+  Versi dokumen                      0.2
+
+  Status                             Draft revisi v0.2 --- kebutuhan
+                                     diperbarui; beberapa keputusan
+                                     bisnis tetap berstatus TBD
+
+  Tanggal                            4 November 2026
+
+  Dokumen sumber                     `LAPORAN PROYEK RPL.docx` dan
+                                     keputusan perencanaan dalam
+                                     percakapan proyek
+  ---------------------------------------------------------------------
+
+## Riwayat Revisi
+
   -----------------------------------------------------------------------
-  Informasi                           Keterangan
-  ----------------------------------- -----------------------------------
-  Nama produk                         Sistem Informasi Manajemen UKM
-                                      Polytechnic Linux Community
+  Versi                   Tanggal                 Perubahan
+  ----------------------- ----------------------- -----------------------
+  0.1                     3 November 2026         Baseline kebutuhan
+                                                  awal.
 
-  Modul utama                         Manajemen Program Kerja dan Sistem
-                                      Pendukung Keputusan (SPK) SAW
-
-  Versi dokumen                       0.1
-
-  Status                              Draft kerja --- menjadi acuan
-                                      implementasi setelah diverifikasi
-                                      terhadap repository
-
-  Tanggal                             3 November 2026
-
-  Dokumen sumber                      `LAPORAN PROYEK RPL.docx` dan
-                                      keputusan perencanaan dalam
-                                      percakapan proyek
+  0.2                     4 November 2026         Menambahkan ruang
+                                                  lingkup landing page
+                                                  publik; memperjelas
+                                                  bahwa visibilitas
+                                                  ranking, status
+                                                  `Dalam Evaluasi`, dan
+                                                  kebijakan edit/hapus
+                                                  catatan tetap TBD.
   -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 > **Penting:** Dokumen ini adalah baseline kebutuhan dan keputusan
 > teknis. Bagian berstatus **LOCKED** merupakan keputusan yang sudah
@@ -165,34 +185,34 @@ authorization dianggap lengkap.
   Aktivitas            Super Admin      Pejabat   Ketua Umum Ketua Bidang     Pengurus
                                           Teras                                 Bidang
   ------------------- ------------ ------------ ------------ ------------ ------------
-  Mengelola pengguna            Ya        Tidak        Tidak        Tidak        Tidak
+  Mengelola pengguna            Ya        Tidak        Tidak Tidak               Tidak
 
-  Mengelola role dan            Ya        Tidak        Tidak        Tidak        Tidak
+  Mengelola role dan            Ya        Tidak        Tidak Tidak               Tidak
   permission                                                              
 
-  Mengelola periode             Ya        Tidak        Tidak        Tidak        Tidak
+  Mengelola periode             Ya        Tidak        Tidak Tidak               Tidak
 
-  Membuat/mengelola         Sesuai        Tidak        Tidak           Ya           Ya
+  Membuat/mengelola         Sesuai        Tidak        Tidak Ya                     Ya
   draft bidang           kebijakan   ditetapkan   ditetapkan              
                              admin                                        
 
-  Meninjau dan               Tidak        Tidak        Tidak           Ya        Tidak
+  Meninjau dan               Tidak        Tidak        Tidak Ya                  Tidak
   mengajukan program    ditetapkan                                          ditetapkan
   kerja                                                                   
 
-  Mengevaluasi               Tidak           Ya           Ya        Tidak        Tidak
+  Mengevaluasi               Tidak           Ya           Ya Tidak               Tidak
   program kerja         ditetapkan                                        
 
-  Memberikan                 Tidak           Ya           Ya        Tidak        Tidak
+  Memberikan                 Tidak           Ya           Ya Tidak               Tidak
   penilaian SAW         ditetapkan                                        
 
-  Mengelola bobot SAW        Tidak        Tidak   Ya, dengan        Tidak        Tidak
+  Mengelola bobot SAW        Tidak        Tidak   Ya, dengan Tidak               Tidak
                           otomatis     otomatis   permission              
 
-  Melihat ranking            Tidak           Ya           Ya        Belum        Belum
-                        ditetapkan                             ditetapkan   ditetapkan
+  Melihat ranking            Tidak           Ya           Ya Belum               Belum
+                        ditetapkan                           ditetapkan     ditetapkan
 
-  Mencatat keputusan         Tidak           Ya           Ya        Tidak        Tidak
+  Mencatat keputusan         Tidak           Ya           Ya Tidak               Tidak
   pleno                 ditetapkan                                        
   ------------------------------------------------------------------------------------
 
@@ -200,11 +220,62 @@ authorization dianggap lengkap.
 mewarisi kewenangan role Pejabat Teras. Permission `saw.weights.manage`
 adalah tambahan khusus.
 
+Visibilitas hasil ranking untuk Pejabat Teras (termasuk Ketua Umum)
+tercantum `Ya` pada matriks baseline. Visibilitas untuk Super Admin,
+Ketua Bidang, dan Pengurus Bidang tidak boleh diasumsikan; keputusan
+yang belum ditetapkan tetap mengikuti `TBD-015`.
+
 ------------------------------------------------------------------------
 
 # 3. Ruang Lingkup Fungsional
 
-## 3.1 Modul Autentikasi
+## 3.1 Public Landing Page (Tambahan Lingkup v0.2)
+
+Sistem menyediakan landing page publik singkat sebelum login untuk
+memperkenalkan Sistem Informasi Manajemen UKM Polytechnic Linux
+Community dan mengarahkan pengguna yang sudah memiliki akun ke halaman
+login.
+
+  -----------------------------------------------------------------------
+  ID                      Requirement             Prioritas
+  ----------------------- ----------------------- -----------------------
+  FR-PUB-01               Pengunjung dapat        Must
+                          mengakses landing page  
+                          tanpa autentikasi.      
+
+  FR-PUB-02               Landing page            Must
+                          menampilkan lima        
+                          bagian: navigation,     
+                          hero, feature           
+                          highlights, closing     
+                          CTA, dan footer.        
+
+  FR-PUB-03               Navigasi section        Must
+                          menggunakan             
+                          anchor/scroll pada      
+                          halaman yang sama.      
+
+  FR-PUB-04               CTA `Masuk` mengarahkan Must
+                          pengunjung ke halaman   
+                          login.                  
+
+  FR-PUB-05               Landing page hanya      Must
+                          menyajikan informasi    
+                          publik dan tidak        
+                          menyediakan             
+                          self-registration atau  
+                          pengelolaan data        
+                          internal.               
+  -----------------------------------------------------------------------
+
+Ketentuan: - Landing page bersifat singkat dan informatif. - Hero
+menggunakan preview dashboard sebagai visual utama. - Konten preview
+menggunakan data ilustratif, bukan data privat atau data produksi. -
+Landing page tidak menampilkan informasi program kerja, anggota, atau
+hasil SAW yang memerlukan autentikasi/authorization. - Keputusan visual
+rinci mengikuti `DESIGN.md`.
+
+## 3.2 Modul Autentikasi
 
   -----------------------------------------------------------------------
   ID                      Requirement             Prioritas
@@ -236,7 +307,7 @@ Pembuatan akun dilakukan melalui administrasi pengguna oleh Super Admin
 sebagai baseline dokumen. Mekanisme undangan, reset password, dan
 aktivasi akun belum dirinci dan berstatus TBD.
 
-## 3.2 Modul Administrasi Sistem
+## 3.3 Modul Administrasi Sistem
 
   -----------------------------------------------------------------------
   ID                      Requirement             Prioritas
@@ -279,7 +350,7 @@ Aturan penghapusan permanen pengguna/periode/bidang belum diputuskan.
 Hindari hard delete data yang telah direferensikan sebelum aturan
 retensi dan foreign key ditetapkan.
 
-## 3.3 Modul Periode dan Keanggotaan
+## 3.4 Modul Periode dan Keanggotaan
 
   -----------------------------------------------------------------------
   ID                      Requirement             Prioritas
@@ -312,7 +383,7 @@ retensi dan foreign key ditetapkan.
                           baru.                   
   -----------------------------------------------------------------------
 
-## 3.4 Modul Program Kerja
+## 3.5 Modul Program Kerja
 
   -----------------------------------------------------------------------
   ID                      Requirement             Prioritas
@@ -368,7 +439,7 @@ retensi dan foreign key ditetapkan.
                           setelah pelaksanaan.    
   -----------------------------------------------------------------------
 
-### 3.4.1 Data Program Kerja
+### 3.5.1 Data Program Kerja
 
 Atribut baseline dari dokumen: - `id` - `periode_id` - `bidang_id` -
 `nama_proker` - `tujuan` - `deskripsi` - `waktu` - `anggaran` -
@@ -379,7 +450,7 @@ data dictionary. Program kerja dimiliki oleh satu bidang dan satu
 periode. Program kerja dapat memiliki beberapa PIC melalui tabel
 penghubung.
 
-### 3.4.2 PIC Program Kerja
+### 3.5.2 PIC Program Kerja
 
 **Keputusan LOCKED:** satu program kerja dapat memiliki lebih dari satu
 PIC. PIC direferensikan melalui `keanggotaan_id`.
@@ -388,7 +459,7 @@ PIC. PIC direferensikan melalui `keanggotaan_id`.
 boleh lintas bidang. Keanggotaan PIC setidaknya harus berasal dari
 periode yang sesuai dengan program kerja; aturan final perlu divalidasi.
 
-## 3.5 Catatan dan Evaluasi
+## 3.6 Catatan dan Evaluasi
 
 Sistem mencatat catatan evaluasi yang berkaitan dengan program kerja dan
 keanggotaan pembuat catatan.
@@ -399,7 +470,7 @@ ProgramKerja dan Keanggotaan.
 **TBD:** apakah catatan bersifat append-only atau dapat diedit/dihapus.
 Jangan mengunci perilaku ini sebelum dikonfirmasi.
 
-## 3.6 Modul Penilaian dan SAW
+## 3.7 Modul Penilaian dan SAW
 
   -----------------------------------------------------------------------
   ID                      Requirement             Prioritas
@@ -448,7 +519,7 @@ Jangan mengunci perilaku ini sebelum dikonfirmasi.
                           prioritas.              
   -----------------------------------------------------------------------
 
-### 3.6.1 Kriteria SAW
+### 3.7.1 Kriteria SAW
 
 Kriteria dari dokumen proyek:
 
@@ -472,7 +543,7 @@ rupiah untuk anggaran.
   Urgensi terhadap kalender kegiatan      Benefit
   Kerumitan dan risiko pelaksanaan        Cost
 
-### 3.6.2 Formula SAW Baseline
+### 3.7.2 Formula SAW Baseline
 
 Untuk kriteria benefit:
 
@@ -493,7 +564,7 @@ Formula di atas mengikuti flowchart perhitungan SAW pada laporan proyek.
 Penanganan nilai nol, data kosong, nilai seri/tie, pembulatan, serta
 validasi bobot harus ditentukan sebelum layanan SAW diimplementasikan.
 
-### 3.6.3 Riwayat Perhitungan
+### 3.7.3 Riwayat Perhitungan
 
 **Keputusan LOCKED:** sistem menyimpan lebih dari satu proses
 perhitungan, bukan menimpa seluruh hasil sebelumnya.
@@ -507,7 +578,7 @@ versi algoritma pada setiap proses agar hasil historis dapat ditelusuri
 secara konsisten. Detail bentuk penyimpanan akan ditentukan pada
 database design.
 
-## 3.7 Keputusan dan Penyelesaian Program Kerja
+## 3.8 Keputusan dan Penyelesaian Program Kerja
 
 Baseline dokumen menyediakan keputusan Revisi, Disetujui, dan Ditolak,
 serta status program kerja yang mencakup Draft, Diajukan, Revisi,
@@ -854,8 +925,12 @@ rekomendasi sebagai keputusan final.
                                                   data apa yang wajib
                                                   diisi
 
-  TBD-015                 Ranking                 Siapa saja yang boleh
-                                                  melihat hasil ranking
+  TBD-015                 Ranking                 Pejabat Teras termasuk
+                                                  Ketua Umum tercantum
+                                                  `Ya` pada baseline; hak
+                                                  Super Admin, Ketua
+                                                  Bidang, dan Pengurus
+                                                  Bidang perlu diputuskan
 
   TBD-016                 Database final          Verifikasi MySQL
                                                   terhadap repository dan
@@ -1044,7 +1119,11 @@ belum terkunci.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- PRD v0.1**
+**Akhir Dokumen --- PRD v0.2**
 
-Status dokumen: Draft kerja untuk ditanamkan ke repository dan
-diverifikasi kembali setelah audit ZIP.
+Status dokumen: Draft revisi v0.2. Landing page publik telah dimasukkan
+ke ruang lingkup. `TBD-001` (status `Dalam Evaluasi`), `TBD-002`
+(edit/hapus catatan), dan `TBD-015` (visibilitas ranking per role) tetap
+terbuka dan harus diputuskan sebelum requirement terkait
+diimplementasikan. Seluruh dokumen tetap perlu diverifikasi terhadap
+repository setelah audit ZIP.

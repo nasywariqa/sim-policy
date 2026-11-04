@@ -2,25 +2,48 @@
 
 ## Sistem Informasi Manajemen UKM Polytechnic Linux Community
 
+  ---------------------------------------------------------------------
+  Informasi                          Keterangan
+  ---------------------------------- ----------------------------------
+  Nama sistem                        Sistem Informasi Manajemen UKM
+                                     Polytechnic Linux Community
+
+  Dokumen                            System Architecture Document
+
+  Versi                              0.2
+
+  Status                             Draft revisi --- mengacu pada PRD
+                                     v0.2 dan SRS v0.2
+
+  Tanggal                            4 November 2026
+
+  Dokumen induk kebutuhan            `PRD.md`
+
+  Spesifikasi kebutuhan              `SRS.md`
+  ---------------------------------------------------------------------
+
+## Riwayat Revisi
+
   -----------------------------------------------------------------------
-  Informasi                           Keterangan
-  ----------------------------------- -----------------------------------
-  Nama sistem                         Sistem Informasi Manajemen UKM
-                                      Polytechnic Linux Community
+  Versi                   Tanggal                 Perubahan
+  ----------------------- ----------------------- -----------------------
+  0.1                     4 November 2026         Baseline arsitektur
+                                                  awal.
 
-  Dokumen                             System Architecture Document
-
-  Versi                               0.1
-
-  Status                              Draft arsitektur --- mengacu pada
-                                      PRD v0.1 dan SRS v0.1
-
-  Tanggal                             4 November 2026
-
-  Dokumen induk kebutuhan             `PRD.md`
-
-  Spesifikasi kebutuhan               `SRS.md`
+  0.2                     4 November 2026         Menambahkan
+                                                  representasi public
+                                                  landing page pada
+                                                  arsitektur
+                                                  frontend/same-origin;
+                                                  memperjelas bahwa TBD
+                                                  visibilitas ranking,
+                                                  status, dan mutabilitas
+                                                  catatan tidak mengubah
+                                                  desain teknis sebelum
+                                                  diputuskan.
   -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 > **Aturan status keputusan:** `LOCKED` berarti sudah disetujui dan
 > tidak boleh diubah tanpa persetujuan pemilik proyek. `BASELINE`
@@ -150,26 +173,26 @@ pada dokumen desain dan implementasi setelah audit repository.
 
 ## 2.2 Baseline dari Dokumen Proyek
 
-  -----------------------------------------------------------------------
-  Area                                Baseline
-  ----------------------------------- -----------------------------------
-  Database                            MySQL tercantum sebagai baseline
-                                      teknologi pada dokumen proyek.
+  ---------------------------------------------------------------------
+  Area                               Baseline
+  ---------------------------------- ----------------------------------
+  Database                           MySQL tercantum sebagai baseline
+                                     teknologi pada dokumen proyek.
 
-  Metode pemeringkatan                Simple Additive Weighting (SAW).
+  Metode pemeringkatan               Simple Additive Weighting (SAW).
 
-  Kriteria                            Lima kriteria: kesesuaian
-                                      visi/kebutuhan, kesiapan SDM,
-                                      anggaran, urgensi kalender,
-                                      kerumitan/risiko.
+  Kriteria                           Lima kriteria: kesesuaian
+                                     visi/kebutuhan, kesiapan SDM,
+                                     anggaran, urgensi kalender,
+                                     kerumitan/risiko.
 
-  Aktor organisasi                    Super Admin, Pejabat Teras, Ketua
-                                      Bidang, Pengurus Bidang.
+  Aktor organisasi                   Super Admin, Pejabat Teras, Ketua
+                                     Bidang, Pengurus Bidang.
 
-  Ketua Umum                          Termasuk Pejabat Teras dengan
-                                      permission tambahan
-                                      `saw.weights.manage`.
-  -----------------------------------------------------------------------
+  Ketua Umum                         Termasuk Pejabat Teras dengan
+                                     permission tambahan
+                                     `saw.weights.manage`.
+  ---------------------------------------------------------------------
 
 **Catatan:** MySQL belum diperlakukan sebagai keputusan teknologi final
 yang tidak dapat diubah. PRD dan SRS meminta verifikasi terhadap
@@ -263,7 +286,8 @@ diakses langsung oleh browser pengguna.
 ## 5.1 Gambaran Komponen
 
 Sistem utama terdiri atas tiga container logis: 1. **Web Client:**
-React + TypeScript yang berjalan di browser. 2. **Laravel Application:**
+React + TypeScript yang berjalan di browser dan mencakup public landing
+page serta authenticated application. 2. **Laravel Application:**
 menyajikan frontend hasil build, REST API, session authentication,
 authorization, business logic, dan integrasi data. 3. **Python SAW
 Service:** menerima input terstruktur dan mengembalikan hasil komputasi
@@ -273,6 +297,12 @@ Database relasional digunakan oleh Laravel sebagai penyimpanan utama.
 Python tidak menjadi pemilik data utama dan tidak melakukan query
 langsung ke database aplikasi.
 
+Public landing page merupakan bagian dari React SPA yang disajikan
+melalui origin aplikasi yang sama. Route landing page tidak memerlukan
+session Sanctum dan tidak mengambil data organisasi privat. Route
+aplikasi internal dan seluruh API privat tetap memerlukan autentikasi
+serta authorization sesuai requirement.
+
 ## 5.2 Container Diagram
 
 ``` mermaid
@@ -280,6 +310,8 @@ flowchart TB
     B[User Browser]
     subgraph APP[Same-Origin Web Application]
         SPA[React + TypeScript SPA]
+        PUBLIC[Public Landing Page - no login]
+        PRIVATE[Authenticated Application]
         LAR[Laravel Application]
         API[REST API /api/v1]
         AUTH[Sanctum Session Authentication]
@@ -291,7 +323,9 @@ flowchart TB
     PY[Python SAW Service]
 
     B -->|HTTPS, same origin| SPA
-    SPA -->|JSON + session cookie + CSRF| API
+    SPA --> PUBLIC
+    SPA --> PRIVATE
+    PRIVATE -->|JSON + session cookie + CSRF| API
     API --> AUTH
     API --> AUTHZ
     API --> BIZ
@@ -379,37 +413,37 @@ dan service sesuai pola repository.
 
 ### Lapisan dan tanggung jawab
 
-  -----------------------------------------------------------------------
-  Lapisan                             Tanggung jawab
-  ----------------------------------- -----------------------------------
-  Routes                              Mendefinisikan endpoint dan
-                                      middleware.
+  ---------------------------------------------------------------------
+  Lapisan                            Tanggung jawab
+  ---------------------------------- ----------------------------------
+  Routes                             Mendefinisikan endpoint dan
+                                     middleware.
 
-  Middleware                          Memeriksa session dan pembatasan
-                                      request tingkat route.
+  Middleware                         Memeriksa session dan pembatasan
+                                     request tingkat route.
 
-  Form Requests                       Memvalidasi input dan, bila sesuai,
-                                      otorisasi request.
+  Form Requests                      Memvalidasi input dan, bila
+                                     sesuai, otorisasi request.
 
-  Controllers                         Mengorkestrasi request/response;
-                                      tidak menampung seluruh business
-                                      logic.
+  Controllers                        Mengorkestrasi request/response;
+                                     tidak menampung seluruh business
+                                     logic.
 
-  Services/Actions                    Menjalankan alur aplikasi dan
-                                      business rules.
+  Services/Actions                   Menjalankan alur aplikasi dan
+                                     business rules.
 
-  Models                              Merepresentasikan entitas dan
-                                      relasi data.
+  Models                             Merepresentasikan entitas dan
+                                     relasi data.
 
-  Policies                            Memeriksa akses terhadap resource
-                                      tertentu.
+  Policies                           Memeriksa akses terhadap resource
+                                     tertentu.
 
-  API Resources                       Mengubah model/data menjadi
-                                      response API yang konsisten.
+  API Resources                      Mengubah model/data menjadi
+                                     response API yang konsisten.
 
-  Integration Client                  Mengisolasi komunikasi HTTP ke
-                                      Python SAW Service.
-  -----------------------------------------------------------------------
+  Integration Client                 Mengisolasi komunikasi HTTP ke
+                                     Python SAW Service.
+  ---------------------------------------------------------------------
 
 **Prinsip:** jangan menambahkan Repository Pattern, Event Bus, CQRS,
 atau abstraksi lain secara otomatis. Gunakan hanya jika kebutuhan dan
@@ -419,40 +453,40 @@ pola repository mendukungnya.
 
 Modul logis backend:
 
-  -----------------------------------------------------------------------
-  Modul                               Tanggung jawab utama
-  ----------------------------------- -----------------------------------
-  Identity & Authentication           User, login, logout, session,
-                                      profil pengguna.
+  ---------------------------------------------------------------------
+  Modul                              Tanggung jawab utama
+  ---------------------------------- ----------------------------------
+  Identity & Authentication          User, login, logout, session,
+                                     profil pengguna.
 
-  Authorization                       Role, permission catalog, role
-                                      default permission, membership
-                                      override, policy.
+  Authorization                      Role, permission catalog, role
+                                     default permission, membership
+                                     override, policy.
 
-  Organization                        Periode kepengurusan, bidang,
-                                      keanggotaan.
+  Organization                       Periode kepengurusan, bidang,
+                                     keanggotaan.
 
-  Program Work                        Draft, detail, update, pengajuan,
-                                      status program kerja.
+  Program Work                       Draft, detail, update, pengajuan,
+                                     status program kerja.
 
-  PIC Management                      Relasi satu atau beberapa PIC ke
-                                      program kerja.
+  PIC Management                     Relasi satu atau beberapa PIC ke
+                                     program kerja.
 
-  Evaluation                          Catatan evaluasi dan revisi.
+  Evaluation                         Catatan evaluasi dan revisi.
 
-  Decision                            Pencatatan keputusan dan riwayat
-                                      keputusan.
+  Decision                           Pencatatan keputusan dan riwayat
+                                     keputusan.
 
-  SAW Configuration                   Kriteria, jenis kriteria, dan bobot
-                                      per periode.
+  SAW Configuration                  Kriteria, jenis kriteria, dan
+                                     bobot per periode.
 
-  SAW Assessment                      Input, validasi, dan penyimpanan
-                                      penilaian.
+  SAW Assessment                     Input, validasi, dan penyimpanan
+                                     penilaian.
 
-  SAW Calculation                     Persiapan input, pemanggilan
-                                      Python, validasi output, riwayat
-                                      proses dan hasil.
-  -----------------------------------------------------------------------
+  SAW Calculation                    Persiapan input, pemanggilan
+                                     Python, validasi output, riwayat
+                                     proses dan hasil.
+  ---------------------------------------------------------------------
 
 Modul-modul tersebut merupakan batas tanggung jawab logis, bukan
 perintah untuk membuat satu folder atau satu service untuk setiap baris.
@@ -466,8 +500,9 @@ Struktur tanggung jawab frontend yang direkomendasikan:
 flowchart TB
     APP[Application Entry]
     ROUTER[Application Router]
+    PUBLIC[Public Landing Page]
     LAYOUT[Authenticated Layout]
-    PAGES[Feature Pages]
+    PAGES[Authenticated Feature Pages]
     COMPONENTS[Reusable UI Components]
     HOOKS[Feature Hooks]
     API[Typed API Client]
@@ -475,6 +510,7 @@ flowchart TB
     BACKEND[Laravel REST API]
 
     APP --> ROUTER
+    ROUTER --> PUBLIC
     ROUTER --> LAYOUT
     LAYOUT --> PAGES
     PAGES --> COMPONENTS
@@ -496,6 +532,11 @@ membuat ulang struktur sebelum memeriksa struktur frontend yang sudah
 ada.
 
 ### Aturan frontend
+
+Public landing page berada pada public route dan tidak dibungkus oleh
+authenticated layout. Route internal menggunakan authenticated layout
+dan memuat konteks user/permission dari Laravel. Public page tidak boleh
+memanggil endpoint privat atau menampilkan data privat.
 
 1.  Gunakan TypeScript untuk kontrak data.
 2.  Pisahkan komponen umum dari komponen khusus fitur.
@@ -648,57 +689,68 @@ Daftar ini bukan kontrak endpoint final. Nama route, payload, query
 parameters, pagination, dan response schema ditetapkan setelah audit
 kode dan API design.
 
+Akses `SAW Results` wajib diperiksa oleh Laravel melalui permission dan
+policy. Berdasarkan PRD/SRS v0.2, Pejabat Teras (termasuk Ketua Umum)
+tercantum memiliki akses melihat ranking. Hak Super Admin, Ketua Bidang,
+dan Pengurus Bidang tetap mengikuti `TBD-015`; jangan memberikan akses
+default sebelum keputusan tersebut ditetapkan.
+
+Resource `Program Work Notes` pada baseline hanya memerlukan operasi
+membuat dan melihat catatan. Operasi update/delete tidak boleh
+ditambahkan sebelum kebijakan `TBD-002` diputuskan.
+
 ## 8.3 HTTP Method
 
-  -----------------------------------------------------------------------
-  Method                              Penggunaan umum
-  ----------------------------------- -----------------------------------
-  GET                                 Membaca resource.
+  ---------------------------------------------------------------------
+  Method                             Penggunaan umum
+  ---------------------------------- ----------------------------------
+  GET                                Membaca resource.
 
-  POST                                Membuat resource atau menjalankan
-                                      aksi seperti submit/calculate.
+  POST                               Membuat resource atau menjalankan
+                                     aksi seperti submit/calculate.
 
-  PUT                                 Mengganti representasi resource
-                                      jika memang diperlukan.
+  PUT                                Mengganti representasi resource
+                                     jika memang diperlukan.
 
-  PATCH                               Memperbarui sebagian field.
+  PATCH                              Memperbarui sebagian field.
 
-  DELETE                              Menghapus resource jika kebijakan
-                                      penghapusan mengizinkan.
-  -----------------------------------------------------------------------
+  DELETE                             Menghapus resource jika kebijakan
+                                     penghapusan mengizinkan.
+  ---------------------------------------------------------------------
 
 Jangan menyediakan DELETE untuk data historis atau data yang harus
 dipertahankan tanpa keputusan retensi yang jelas.
 
 ## 8.4 HTTP Status Code
 
-  -----------------------------------------------------------------------
-  Status                              Makna umum
-  ----------------------------------- -----------------------------------
-  200                                 Request berhasil.
+  ---------------------------------------------------------------------
+  Status                             Makna umum
+  ---------------------------------- ----------------------------------
+  200                                Request berhasil.
 
-  201                                 Resource berhasil dibuat.
+  201                                Resource berhasil dibuat.
 
-  204                                 Berhasil tanpa response body.
+  204                                Berhasil tanpa response body.
 
-  401                                 Belum terautentikasi atau session
-                                      tidak valid.
+  401                                Belum terautentikasi atau session
+                                     tidak valid.
 
-  403                                 Terautentikasi tetapi tidak
-                                      memiliki akses.
+  403                                Terautentikasi tetapi tidak
+                                     memiliki akses.
 
-  404                                 Resource tidak ditemukan atau tidak
-                                      dapat diakses sesuai kebijakan.
+  404                                Resource tidak ditemukan atau
+                                     tidak dapat diakses sesuai
+                                     kebijakan.
 
-  409                                 Konflik state/constraint bisnis.
+  409                                Konflik state/constraint bisnis.
 
-  422                                 Validasi input gagal.
+  422                                Validasi input gagal.
 
-  500                                 Kesalahan internal aplikasi.
+  500                                Kesalahan internal aplikasi.
 
-  502/503/504                         Kegagalan atau timeout pada layanan
-                                      upstream, sesuai kondisi.
-  -----------------------------------------------------------------------
+  502/503/504                        Kegagalan atau timeout pada
+                                     layanan upstream, sesuai kondisi.
+  ---------------------------------------------------------------------
 
 ## 8.5 Bentuk Response
 
@@ -1084,36 +1136,36 @@ dikunci.
 
 ## 12.5 Testing Architecture
 
-  -----------------------------------------------------------------------
-  Area                                Jenis pengujian
-  ----------------------------------- -----------------------------------
-  Authentication                      Feature test login, logout,
-                                      session, CSRF sesuai test
-                                      environment.
+  ---------------------------------------------------------------------
+  Area                               Jenis pengujian
+  ---------------------------------- ----------------------------------
+  Authentication                     Feature test login, logout,
+                                     session, CSRF sesuai test
+                                     environment.
 
-  Authorization                       Test permission role default dan
-                                      override INHERIT/GRANT/DENY.
+  Authorization                      Test permission role default dan
+                                     override INHERIT/GRANT/DENY.
 
-  Organization                        Test keanggotaan, periode, bidang,
-                                      dan constraint unik.
+  Organization                       Test keanggotaan, periode, bidang,
+                                     dan constraint unik.
 
-  Program Kerja                       Feature test CRUD, submit, revisi,
-                                      PIC, dan keputusan.
+  Program Kerja                      Feature test CRUD, submit, revisi,
+                                     PIC, dan keputusan.
 
-  SAW calculation                     Unit test formula benefit/cost dan
-                                      edge cases yang telah diputuskan.
+  SAW calculation                    Unit test formula benefit/cost dan
+                                     edge cases yang telah diputuskan.
 
-  Python integration                  Contract test/request test untuk
-                                      sukses, invalid response, error,
-                                      dan timeout.
+  Python integration                 Contract test/request test untuk
+                                     sukses, invalid response, error,
+                                     dan timeout.
 
-  Frontend                            Component/integration test sesuai
-                                      test stack repository.
+  Frontend                           Component/integration test sesuai
+                                     test stack repository.
 
-  End-to-end                          Uji alur utama dari login sampai
-                                      ranking/keputusan bila test
-                                      environment mendukung.
-  -----------------------------------------------------------------------
+  End-to-end                         Uji alur utama dari login sampai
+                                     ranking/keputusan bila test
+                                     environment mendukung.
+  ---------------------------------------------------------------------
 
 Pengujian harus mengikuti tools yang sudah digunakan repository setelah
 audit. Jangan menambah framework test baru tanpa alasan.
@@ -1185,72 +1237,117 @@ existing hanya untuk menyamai contoh ini.
 
 # 14. Keputusan Arsitektur Terbuka
 
-  -----------------------------------------------------------------------------------------
-  ID                Topik                               Status            Catatan
-  ----------------- ----------------------------------- ----------------- -----------------
-  ARC-TBD-01        Database engine final               Open / verify     MySQL adalah
-                                                                          baseline dokumen;
-                                                                          audit repository
-                                                                          dan deployment.
+  -----------------------------------------------------------------------------
+  ID           Topik                               Status      Catatan
+  ------------ ----------------------------------- ----------- ----------------
+  ARC-TBD-01   Database engine final               Open /      MySQL adalah
+                                                   verify      baseline
+                                                               dokumen; audit
+                                                               repository dan
+                                                               deployment.
 
-  ARC-TBD-02        Versi                               Verify            Ambil dari
-                    Laravel/PHP/Node/React/TypeScript                     manifest dan
-                                                                          lockfile
-                                                                          repository.
+  ARC-TBD-02   Versi                               Verify      Ambil dari
+               Laravel/PHP/Node/React/TypeScript               manifest dan
+                                                               lockfile
+                                                               repository.
 
-  ARC-TBD-03        Struktur fisik frontend             Verify            Ikuti struktur
-                                                                          aktual dan
-                                                                          dependency.
+  ARC-TBD-03   Struktur fisik frontend             Verify      Ikuti struktur
+                                                               aktual dan
+                                                               dependency.
 
-  ARC-TBD-04        Library routing/state               Open / verify     Jangan menambah
-                    management/form                                       package sebelum
-                                                                          audit.
+  ARC-TBD-04   Library routing/state               Open /      Jangan menambah
+               management/form                     verify      package sebelum
+                                                               audit.
 
-  ARC-TBD-05        Struktur fisik Python Service       Open              Tentukan lokasi
-                                                                          dan runtime
-                                                                          deployment.
+  ARC-TBD-05   Struktur fisik Python Service       Open        Tentukan lokasi
+                                                               dan runtime
+                                                               deployment.
 
-  ARC-TBD-06        Kontrak HTTP Python                 Open              Endpoint, schema,
-                                                                          error, auth
-                                                                          service, timeout.
+  ARC-TBD-06   Kontrak HTTP Python                 Open        Endpoint,
+                                                               schema, error,
+                                                               auth service,
+                                                               timeout.
 
-  ARC-TBD-07        Authentication antarservice         Open              Tentukan sebelum
-                                                                          production.
+  ARC-TBD-07   Authentication antarservice         Open        Tentukan sebelum
+                                                               production.
 
-  ARC-TBD-08        Snapshot SAW                        Proposed          Riwayat run
-                                                                          locked; bentuk
-                                                                          snapshot belum
-                                                                          final.
+  ARC-TBD-08   Snapshot SAW                        Proposed    Riwayat run
+                                                               locked; bentuk
+                                                               snapshot belum
+                                                               final.
 
-  ARC-TBD-09        Riwayat proses gagal                Open              Log saja atau
-                                                                          record status
-                                                                          failed.
+  ARC-TBD-09   Riwayat proses gagal                Open        Log saja atau
+                                                               record status
+                                                               failed.
 
-  ARC-TBD-10        API response envelope final         Open / verify     Pertahankan pola
-                                                                          existing bila
-                                                                          tersedia.
+  ARC-TBD-10   API response envelope final         Open /      Pertahankan pola
+                                                   verify      existing bila
+                                                               tersedia.
 
-  ARC-TBD-11        Audit log permanen                  Open              Event, retensi,
-                                                                          dan akses.
+  ARC-TBD-11   Audit log permanen                  Open        Event, retensi,
+                                                               dan akses.
 
-  ARC-TBD-12        Deployment/hosting                  Open              Domain, web
-                                                                          server, process
-                                                                          manager, network.
+  ARC-TBD-12   Deployment/hosting                  Open        Domain, web
+                                                               server, process
+                                                               manager,
+                                                               network.
 
-  ARC-TBD-13        Session store                       Verify            Ikuti konfigurasi
-                                                                          Laravel dan
-                                                                          kebutuhan
-                                                                          deployment.
+  ARC-TBD-13   Session store                       Verify      Ikuti
+                                                               konfigurasi
+                                                               Laravel dan
+                                                               kebutuhan
+                                                               deployment.
 
-  ARC-TBD-14        File storage/backup                 Open              Kebutuhan backup
-                                                                          dan recovery
-                                                                          belum ditentukan.
+  ARC-TBD-14   File storage/backup                 Open        Kebutuhan backup
+                                                               dan recovery
+                                                               belum
+                                                               ditentukan.
 
-  ARC-TBD-15        Concurrency dan idempotency         Open              Tentukan
-                                                                          berdasarkan alur
-                                                                          dan risiko
-                                                                          double-submit.
-  -----------------------------------------------------------------------------------------
+  ARC-TBD-15   Concurrency dan idempotency         Open        Tentukan
+                                                               berdasarkan alur
+                                                               dan risiko
+                                                               double-submit.
+  -----------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+## 14.1 Ketergantungan Requirement yang Masih Terbuka
+
+  -----------------------------------------------------------------------
+  ID sumber               Topik                   Dampak arsitektur v0.2
+  ----------------------- ----------------------- -----------------------
+  PRD/SRS `TBD-001`       Status `Dalam Evaluasi` Tidak menambahkan
+                                                  enum/status, transisi,
+                                                  atau migration sebelum
+                                                  keputusan. Jika
+                                                  disetujui, evaluasi
+                                                  ulang state machine dan
+                                                  validasi status.
+
+  PRD/SRS `TBD-002`       Edit/hapus catatan      Tidak menambahkan
+                          evaluasi                endpoint update/delete
+                                                  atau mengasumsikan
+                                                  append-only sebelum
+                                                  keputusan. Evaluasi
+                                                  kebutuhan `updated_at`,
+                                                  audit trail, dan
+                                                  kebijakan retensi
+                                                  setelah keputusan.
+
+  PRD/SRS `TBD-015`       Visibilitas ranking per Tetap gunakan
+                          role                    permission/policy
+                                                  backend. Jangan
+                                                  memberikan akses untuk
+                                                  role yang belum
+                                                  ditetapkan. Verifikasi
+                                                  apakah permission
+                                                  catalog yang ada sudah
+                                                  mencukupi saat audit.
+  -----------------------------------------------------------------------
+
+Ketiga item di atas merupakan ketergantungan requirement, bukan
+keputusan arsitektur baru. Keputusan final dapat memengaruhi API,
+policy, validasi, atau data model dan harus dianalisis sebelum patch.
 
 ------------------------------------------------------------------------
 
@@ -1311,6 +1408,9 @@ sebelum/bersamaan dengan patch.
 
 # 16. Traceability Arsitektur
 
+Catatan v0.2: Public Landing Page dipetakan ke PRD Bagian 3.1 dan SRS
+FR-PUB-01 s.d. FR-PUB-05 serta UC-PUB-01.
+
   -----------------------------------------------------------------------
   Area arsitektur         Acuan PRD               Acuan SRS
   ----------------------- ----------------------- -----------------------
@@ -1343,8 +1443,12 @@ sebelum/bersamaan dengan patch.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- ARCHITECTURE v0.1**
+**Akhir Dokumen --- ARCHITECTURE v0.2**
 
-Status: Draft arsitektur yang diturunkan dari `PRD.md` dan `SRS.md`.
-Struktur fisik, versi dependency, database final, dan kontrak Python
-harus diverifikasi setelah repository diaudit.
+Status: Draft arsitektur v0.2 yang diselaraskan dengan `PRD.md` dan
+`SRS.md` v0.2. Public landing page ditangani oleh React SPA pada
+same-origin tanpa endpoint privat baru. Keputusan `TBD-001`, `TBD-002`,
+dan `TBD-015` belum mengubah model teknis; dampaknya harus ditinjau
+setelah keputusan bisnis dikunci. Struktur fisik, versi dependency,
+database final, dan kontrak Python tetap harus diverifikasi setelah
+repository diaudit.

@@ -2,31 +2,54 @@
 
 ## Sistem Informasi Manajemen UKM Polytechnic Linux Community
 
+  ---------------------------------------------------------------------
+  Informasi                          Keterangan
+  ---------------------------------- ----------------------------------
+  Nama produk                        Sistem Informasi Manajemen UKM
+                                     Polytechnic Linux Community
+
+  Dokumen                            Design System & UI/UX
+                                     Specification
+
+  Versi                              0.2
+
+  Status                             Draft revisi v0.2; enam keputusan
+                                     visual utama LOCKED dan selaras
+                                     dengan PRD/SRS/ARCHITECTURE v0.2
+
+  Tanggal                            4 November 2026
+
+  Product requirements               `PRD.md`
+
+  Software requirements              `SRS.md`
+
+  System architecture                `ARCHITECTURE.md`
+
+  Referensi visual                   Referensi dashboard dark dan
+                                     landing page dark-orange yang
+                                     diberikan pemilik proyek
+  ---------------------------------------------------------------------
+
+## Riwayat Revisi
+
   -----------------------------------------------------------------------
-  Informasi                           Keterangan
-  ----------------------------------- -----------------------------------
-  Nama produk                         Sistem Informasi Manajemen UKM
-                                      Polytechnic Linux Community
+  Versi                   Tanggal                 Perubahan
+  ----------------------- ----------------------- -----------------------
+  0.1                     4 November 2026         Baseline design system
+                                                  dan enam keputusan
+                                                  visual terkunci.
 
-  Dokumen                             Design System & UI/UX Specification
-
-  Versi                               0.1
-
-  Status                              Draft desain dengan enam keputusan
-                                      visual utama berstatus LOCKED
-
-  Tanggal                             4 November 2026
-
-  Product requirements                `PRD.md`
-
-  Software requirements               `SRS.md`
-
-  System architecture                 `ARCHITECTURE.md`
-
-  Referensi visual                    Referensi dashboard dark dan
-                                      landing page dark-orange yang
-                                      diberikan pemilik proyek
+  0.2                     4 November 2026         Landing page dipetakan
+                                                  ke requirement PRD/SRS;
+                                                  visibilitas ranking,
+                                                  status
+                                                  `Dalam Evaluasi`, dan
+                                                  aksi edit/hapus catatan
+                                                  diselaraskan dengan TBD
+                                                  bisnis.
   -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 > **Aturan status:** `LOCKED` berarti keputusan telah disetujui pemilik
 > proyek. `PROPOSED` berarti rekomendasi desain yang dapat dievaluasi
@@ -63,16 +86,11 @@ Laravel, REST API, Sanctum, dan same-origin deployment.
 
 ## 1.2 Penambahan Lingkup Antarmuka
 
-Public landing page singkat sebelum login merupakan keputusan desain
-yang disetujui dalam sesi perencanaan ini. SRS sebelumnya mencantumkan
-halaman Login dan Dashboard, tetapi belum merinci landing page publik.
-
-Karena itu: - Landing page dicatat sebagai tambahan lingkup antarmuka
-publik. - Landing page bersifat statis/informatif untuk versi pertama. -
-Landing page tidak menyediakan self-registration. - Tombol utama
-mengarahkan pengguna ke halaman Login. - PRD dan SRS perlu diselaraskan
-pada revisi dokumentasi berikutnya agar daftar halaman publik tercatat
-secara eksplisit.
+Public landing page singkat sebelum login telah dimasukkan ke ruang
+lingkup PRD v0.2 dan diturunkan menjadi FR-PUB-01 s.d. FR-PUB-05 serta
+UC-PUB-01 pada SRS v0.2. Landing page bersifat informatif, dapat diakses
+tanpa autentikasi, tidak menyediakan self-registration, dan CTA utamanya
+mengarahkan pengguna ke halaman Login.
 
 ------------------------------------------------------------------------
 
@@ -207,37 +225,39 @@ mengubah arah visual yang sudah disepakati.
 
 ## 4.2 Proposed Color Tokens
 
-  --------------------------------------------------------------------------
-  Token                      Nilai awal              Penggunaan
-  -------------------------- ----------------------- -----------------------
-  `--color-bg`               `#090909`               Background utama
+  ----------------------------------------------------------------------
+  Token                      Nilai awal            Penggunaan
+  -------------------------- --------------------- ---------------------
+  `--color-bg`               `#090909`             Background utama
 
-  `--color-surface`          `#171414`               Card dan panel
+  `--color-surface`          `#171414`             Card dan panel
 
-  `--color-surface-raised`   `#211B19`               Modal, dropdown, panel
-                                                     yang lebih menonjol
+  `--color-surface-raised`   `#211B19`             Modal, dropdown,
+                                                   panel yang lebih
+                                                   menonjol
 
-  `--color-surface-hover`    `#2A211E`               Hover pada elemen
-                                                     interaktif
+  `--color-surface-hover`    `#2A211E`             Hover pada elemen
+                                                   interaktif
 
-  `--color-border`           `#342C29`               Border halus
+  `--color-border`           `#342C29`             Border halus
 
-  `--color-text-primary`     `#F5F1ED`               Judul dan teks utama
+  `--color-text-primary`     `#F5F1ED`             Judul dan teks utama
 
-  `--color-text-secondary`   `#B8ADA7`               Deskripsi dan metadata
+  `--color-text-secondary`   `#B8ADA7`             Deskripsi dan
+                                                   metadata
 
-  `--color-text-muted`       `#817771`               Placeholder dan
-                                                     informasi sekunder
+  `--color-text-muted`       `#817771`             Placeholder dan
+                                                   informasi sekunder
 
-  `--color-brand-red`        `#F04432`               Aksen merah
+  `--color-brand-red`        `#F04432`             Aksen merah
 
-  `--color-brand-orange`     `#FF641F`               Aksen orange
+  `--color-brand-orange`     `#FF641F`             Aksen orange
 
-  `--color-focus`            `#FF8A4C`               Focus ring
+  `--color-focus`            `#FF8A4C`             Focus ring
 
-  `--color-link`             `#FF8A4C`               Link pada dark
-                                                     background
-  --------------------------------------------------------------------------
+  `--color-link`             `#FF8A4C`             Link pada dark
+                                                   background
+  ----------------------------------------------------------------------
 
 ## 4.3 Brand Gradient
 
@@ -508,25 +528,25 @@ flow sebagai fitur aktif sebelum requirement terkait ditetapkan.
 
 ## 8.3 Form Elements
 
-  -----------------------------------------------------------------------
-  Elemen                              Ketentuan
-  ----------------------------------- -----------------------------------
-  Email                               Input email dengan label jelas
+  ---------------------------------------------------------------------
+  Elemen                             Ketentuan
+  ---------------------------------- ----------------------------------
+  Email                              Input email dengan label jelas
 
-  Password                            Input password dengan opsi
-                                      show/hide
+  Password                           Input password dengan opsi
+                                     show/hide
 
-  Submit                              Tombol primary
+  Submit                             Tombol primary
 
-  Loading                             Tombol menampilkan state loading
-                                      saat request berjalan
+  Loading                            Tombol menampilkan state loading
+                                     saat request berjalan
 
-  Validation                          Error ditampilkan dekat field
-                                      terkait
+  Validation                         Error ditampilkan dekat field
+                                     terkait
 
-  Authentication error                Pesan umum yang tidak membocorkan
-                                      apakah akun tertentu terdaftar
-  -----------------------------------------------------------------------
+  Authentication error               Pesan umum yang tidak membocorkan
+                                     apakah akun tertentu terdaftar
+  ---------------------------------------------------------------------
 
 ## 8.4 Authentication Behavior
 
@@ -573,9 +593,10 @@ Kelompok navigasi konseptual:
   Penilaian               Penilaian SAW           Pejabat Teras yang
                                                   berwenang
 
-  Penilaian               Hasil Ranking           Role yang diberi
-                                                  permission melihat
-                                                  ranking
+  Penilaian               Hasil Ranking           Pejabat Teras (termasuk
+                                                  Ketua Umum); role lain
+                                                  mengikuti PRD/SRS
+                                                  TBD-015
 
   Konfigurasi SAW         Kriteria dan Bobot      Pengguna dengan
                                                   permission terkait;
@@ -608,6 +629,13 @@ request. - Jika akses halaman tidak tersedia, jangan hanya
 menyembunyikan menu; direct URL juga harus ditolak backend. - Menu dan
 label final dapat disesuaikan setelah seluruh permission catalog
 difinalisasi.
+
+Khusus menu `Hasil Ranking`: - Pejabat Teras, termasuk Ketua Umum,
+tercantum memiliki akses pada matriks kewenangan PRD. - Hak Super Admin,
+Ketua Bidang, dan Pengurus Bidang masih TBD-015. - Sampai keputusan
+tersebut dikunci, jangan tampilkan menu atau widget ranking kepada role
+yang visibilitasnya belum ditetapkan. - Backend tetap menjadi penentu
+akses; menyembunyikan menu bukan pengganti policy/permission.
 
 ## 9.3 Topbar
 
@@ -642,29 +670,35 @@ dashboard per role disepakati.
 
 ### Rekomendasi konten dashboard per role (PROPOSED)
 
-  -----------------------------------------------------------------------
-  Role                                Fokus dashboard yang
-                                      direkomendasikan
-  ----------------------------------- -----------------------------------
-  Super Admin                         Ringkasan administrasi pengguna,
-                                      periode, dan organisasi sesuai data
-                                      yang tersedia
+  ---------------------------------------------------------------------
+  Role                               Fokus dashboard yang
+                                     direkomendasikan
+  ---------------------------------- ----------------------------------
+  Super Admin                        Ringkasan administrasi pengguna,
+                                     periode, dan organisasi sesuai
+                                     data yang tersedia. Jangan
+                                     tampilkan ranking sampai hak akses
+                                     ditetapkan
 
-  Pejabat Teras                       Program kerja yang menunggu
-                                      evaluasi, penilaian yang belum
-                                      lengkap, dan keputusan terbaru
+  Pejabat Teras                      Program kerja yang menunggu
+                                     evaluasi, penilaian yang belum
+                                     lengkap, hasil ranking, dan
+                                     keputusan terbaru
 
-  Ketua Umum                          Ringkasan Pejabat Teras ditambah
-                                      akses konfigurasi bobot jika
-                                      memiliki permission
+  Ketua Umum                         Mengikuti dashboard Pejabat Teras;
+                                     konfigurasi bobot hanya tersedia
+                                     jika memiliki `saw.weights.manage`
 
-  Ketua Bidang                        Draft bidang, program kerja yang
-                                      diajukan, dan program kerja yang
-                                      perlu diperbaiki
+  Ketua Bidang                       Draft bidang, program kerja yang
+                                     diajukan, dan program kerja yang
+                                     perlu diperbaiki. Jangan tampilkan
+                                     ranking sampai TBD-015 diputuskan
 
-  Pengurus Bidang                     Draft yang dibuat dan status
-                                      program kerja yang relevan
-  -----------------------------------------------------------------------
+  Pengurus Bidang                    Draft yang dibuat dan status
+                                     program kerja yang relevan. Jangan
+                                     tampilkan ranking sampai TBD-015
+                                     diputuskan
+  ---------------------------------------------------------------------
 
 Rekomendasi ini tidak membuat permission baru dan tidak mengubah proses
 bisnis.
@@ -729,9 +763,12 @@ Untuk bidang: - Daftar catatan revisi yang relevan. - Detail bagian
 program kerja yang perlu diperbaiki. - Aksi memperbarui dan mengajukan
 kembali jika diizinkan.
 
-Catatan yang belum diputuskan apakah dapat diedit/dihapus harus
-ditampilkan sesuai aturan backend yang nanti dikunci. UI tidak boleh
-mengasumsikan catatan append-only atau editable sebelum TBD selesai.
+Pada desain v0.2, UI hanya menyediakan tampilan catatan dan aksi membuat
+catatan revisi bagi Pejabat Teras yang berwenang. Tombol edit dan hapus
+tidak ditampilkan sampai PRD/SRS `TBD-002` diputuskan. Pembatasan aksi
+pada mockup ini bukan keputusan bahwa catatan bersifat append-only;
+kebijakan bisnis tetap TBD dan API tidak boleh mengasumsikan operasi
+update/delete.
 
 ## 10.5 Penilaian SAW
 
@@ -1005,39 +1042,39 @@ bahwa tabel dapat digeser.
 Setiap halaman yang mengambil data dari backend harus mendesain state
 berikut sesuai relevansi:
 
-  -----------------------------------------------------------------------
-  State                               Perilaku UI
-  ----------------------------------- -----------------------------------
-  Loading                             Skeleton atau indikator loading
-                                      yang tidak mengubah layout secara
-                                      drastis
+  ---------------------------------------------------------------------
+  State                              Perilaku UI
+  ---------------------------------- ----------------------------------
+  Loading                            Skeleton atau indikator loading
+                                     yang tidak mengubah layout secara
+                                     drastis
 
-  Success                             Konfirmasi singkat setelah aksi
-                                      berhasil
+  Success                            Konfirmasi singkat setelah aksi
+                                     berhasil
 
-  Empty                               Penjelasan bahwa belum ada data dan
-                                      CTA jika pengguna berwenang membuat
-                                      data
+  Empty                              Penjelasan bahwa belum ada data
+                                     dan CTA jika pengguna berwenang
+                                     membuat data
 
-  Validation error                    Error dekat field terkait
+  Validation error                   Error dekat field terkait
 
-  Unauthorized (401)                  Arahkan ke login atau tampilkan
-                                      sesi berakhir
+  Unauthorized (401)                 Arahkan ke login atau tampilkan
+                                     sesi berakhir
 
-  Forbidden (403)                     Tampilkan akses tidak tersedia
+  Forbidden (403)                    Tampilkan akses tidak tersedia
 
-  Not found (404)                     Tampilkan resource tidak ditemukan
+  Not found (404)                    Tampilkan resource tidak ditemukan
 
-  Conflict (409)                      Jelaskan konflik state/aturan
-                                      bisnis
+  Conflict (409)                     Jelaskan konflik state/aturan
+                                     bisnis
 
-  Server error                        Pesan umum dan opsi mencoba kembali
-                                      bila aman
+  Server error                       Pesan umum dan opsi mencoba
+                                     kembali bila aman
 
-  Upstream error                      Jelaskan layanan perhitungan tidak
-                                      tersedia tanpa membocorkan detail
-                                      teknis
-  -----------------------------------------------------------------------
+  Upstream error                     Jelaskan layanan perhitungan tidak
+                                     tersedia tanpa membocorkan detail
+                                     teknis
+  ---------------------------------------------------------------------
 
 Untuk perhitungan SAW: - Tampilkan loading state selama request
 synchronous berjalan. - Cegah double-submit selama request
@@ -1055,44 +1092,48 @@ memvalidasi dan menyimpan hasil.
 -   Istilah teknis yang sudah menjadi istilah produk dapat
     dipertahankan, misalnya Dashboard, SAW, PIC, dan Permission.
 -   Gunakan kalimat pendek dan langsung.
--   Gunakan istilah status yang sama dengan SRS: Draft, Diajukan,
+-   Gunakan enam status baseline pada PRD/SRS v0.2: Draft, Diajukan,
     Revisi, Disetujui, Ditolak, Selesai.
+-   `Dalam Evaluasi` masih berstatus TBD-001 dan belum menjadi status
+    operasional. Jangan menambahkan badge, filter, enum, atau microcopy
+    status tersebut sebelum keputusan dikunci.
 
 ## 16.2 Microcopy Examples
 
-  -----------------------------------------------------------------------
-  Kondisi                             Contoh copy
-  ----------------------------------- -----------------------------------
-  Login                               Masuk ke Sistem
+  ---------------------------------------------------------------------
+  Kondisi                            Contoh copy
+  ---------------------------------- ----------------------------------
+  Login                              Masuk ke Sistem
 
-  Empty program work                  Belum ada program kerja yang
-                                      ditampilkan.
+  Empty program work                 Belum ada program kerja yang
+                                     ditampilkan.
 
-  Create draft                        Buat Draft Program Kerja
+  Create draft                       Buat Draft Program Kerja
 
-  Submit                              Ajukan Program Kerja
+  Submit                             Ajukan Program Kerja
 
-  Revision                            Program kerja memerlukan perbaikan.
-                                      Periksa catatan evaluasi.
+  Revision                           Program kerja memerlukan
+                                     perbaikan. Periksa catatan
+                                     evaluasi.
 
-  SAW incomplete                      Penilaian belum lengkap. Lengkapi
-                                      seluruh kriteria sebelum menghitung
-                                      ranking.
+  SAW incomplete                     Penilaian belum lengkap. Lengkapi
+                                     seluruh kriteria sebelum
+                                     menghitung ranking.
 
-  SAW loading                         Sedang menghitung prioritas program
-                                      kerja...
+  SAW loading                        Sedang menghitung prioritas
+                                     program kerja...
 
-  SAW failure                         Perhitungan belum berhasil. Data
-                                      penilaian tetap tersimpan; silakan
-                                      coba kembali setelah layanan
-                                      tersedia.
+  SAW failure                        Perhitungan belum berhasil. Data
+                                     penilaian tetap tersimpan; silakan
+                                     coba kembali setelah layanan
+                                     tersedia.
 
-  Unauthorized                        Sesi Anda telah berakhir. Silakan
-                                      masuk kembali.
+  Unauthorized                       Sesi Anda telah berakhir. Silakan
+                                     masuk kembali.
 
-  Forbidden                           Anda tidak memiliki akses untuk
-                                      melakukan tindakan ini.
-  -----------------------------------------------------------------------
+  Forbidden                          Anda tidak memiliki akses untuk
+                                     melakukan tindakan ini.
+  ---------------------------------------------------------------------
 
 Copy final dapat disunting, tetapi jangan menjanjikan hasil yang belum
 dikonfirmasi backend.
@@ -1137,10 +1178,10 @@ dikonfirmasi backend.
   -----------------------------------------------------------------------
   Page / UI               Sumber kebutuhan        Catatan
   ----------------------- ----------------------- -----------------------
-  Public Landing Page     Keputusan desain DD-001 Tambahan lingkup
-                          s.d. DD-006             antarmuka; perlu
-                                                  dicatat pada revisi
-                                                  PRD/SRS
+  Public Landing Page     FR-PUB-01 s.d.          Public route tanpa
+                          FR-PUB-05, UC-PUB-01    autentikasi; lima
+                                                  section sesuai DD-001
+                                                  s.d. DD-006
 
   Login                   FR-AUTH-01 s.d.         Sanctum session, tanpa
                           FR-AUTH-05, UC-01       JWT
@@ -1188,52 +1229,61 @@ dikonfirmasi backend.
 
 # 19. Open Design Decisions
 
-  ------------------------------------------------------------------------
-  ID                Topik             Status            Catatan
-  ----------------- ----------------- ----------------- ------------------
-  UI-TBD-01         Nilai HEX final   Proposed          Review setelah
-                    color tokens                        prototype
+  -----------------------------------------------------------------------
+  ID               Topik              Status           Catatan
+  ---------------- ------------------ ---------------- ------------------
+  UI-TBD-01        Nilai HEX final    Proposed         Review setelah
+                   color tokens                        prototype
 
-  UI-TBD-02         Font final dan    Proposed          Periksa
-                    asset lokal                         asset/dependency
-                                                        repository
+  UI-TBD-02        Font final dan     Proposed         Periksa
+                   asset lokal                         asset/dependency
+                                                       repository
 
-  UI-TBD-03         Logo resmi PLC    TBD               Memerlukan asset
-                    dan format asset                    resmi
+  UI-TBD-03        Logo resmi PLC dan TBD              Memerlukan asset
+                   format asset                        resmi
 
-  UI-TBD-04         KPI dan widget    TBD               Harus didukung
-                    final per role                      kebutuhan dan API
+  UI-TBD-04        KPI dan widget     TBD              Harus didukung
+                   final per role                      kebutuhan dan API
 
-  UI-TBD-05         Dashboard default TBD               Rekomendasi
-                    untuk setiap role                   role-aware sudah
-                                                        dicantumkan
+  UI-TBD-05        Dashboard default  TBD              Rekomendasi
+                   untuk setiap role                   role-aware sudah
+                                                       dicantumkan
 
-  UI-TBD-06         Detail breakpoint Proposed          Validasi saat
-                    dan target                          prototype
-                    minimum viewport                    
+  UI-TBD-06        Detail breakpoint  Proposed         Validasi saat
+                   dan target minimum                  prototype
+                   viewport                            
 
-  UI-TBD-07         Bentuk menu       Proposed          Drawer/compact
-                    mobile                              menu
+  UI-TBD-07        Bentuk menu mobile Proposed         Drawer/compact
+                                                       menu
 
-  UI-TBD-08         Exact copy        Proposed          Copy awal
-                    landing page                        disediakan
+  UI-TBD-08        Exact copy landing Proposed         Copy awal
+                   page                                disediakan
 
-  UI-TBD-09         Asset preview     TBD               Perlu dibuat
-                    dashboard                           setelah desain
-                                                        dashboard
-                                                        disetujui
+  UI-TBD-09        Asset preview      TBD              Perlu dibuat
+                   dashboard                           setelah desain
+                                                       dashboard
+                                                       disetujui
 
-  UI-TBD-10         Pemetaan warna    Proposed          Uji kontras dan
-                    final tiap status                   konsistensi
+  UI-TBD-10        Pemetaan warna     Proposed         Uji kontras dan
+                   final tiap status                   konsistensi
 
-  UI-TBD-11         Detail filter dan TBD               Ikuti API dan
-                    kolom tabel per                     kebutuhan tiap
-                    halaman                             modul
+  UI-TBD-11        Detail filter dan  TBD              Ikuti API dan
+                   kolom tabel per                     kebutuhan tiap
+                   halaman                             modul
 
-  UI-TBD-12         Widget aktivitas  TBD               Jangan diasumsikan
-                    dashboard                           sebelum ada
-                                                        requirement
-  ------------------------------------------------------------------------
+  UI-TBD-12        Widget aktivitas   TBD              Jangan diasumsikan
+                   dashboard                           sebelum ada
+                                                       requirement
+  -----------------------------------------------------------------------
+
+Catatan dependency keputusan desain yang masih terbuka:
+
+-   UI-TBD-13 --- Representasi status `Dalam Evaluasi` bergantung pada
+    PRD/SRS `TBD-001`.
+-   UI-TBD-14 --- Visibilitas ranking per role mengikuti PRD/SRS
+    `TBD-015`.
+-   UI-TBD-15 --- Aksi edit/hapus catatan evaluasi mengikuti PRD/SRS
+    `TBD-002`.
 
 ------------------------------------------------------------------------
 
@@ -1280,6 +1330,13 @@ Desain dan implementasi UI dianggap memenuhi DESIGN.md apabila:
     kebutuhan.
 -   Form menampilkan validasi dengan jelas.
 -   Status selalu memiliki label teks.
+-   UI hanya menampilkan enam status baseline sampai PRD/SRS `TBD-001`
+    diputuskan; `Dalam Evaluasi` belum menjadi status operasional.
+-   Menu/widget ranking hanya tampil untuk role yang aksesnya telah
+    ditetapkan; Pejabat Teras termasuk Ketua Umum memiliki akses
+    baseline, sedangkan role lain mengikuti `TBD-015`.
+-   UI tidak menyediakan edit/hapus catatan sebelum kebijakan `TBD-002`
+    diputuskan.
 -   Tabel dan form tetap usable pada ukuran layar yang lebih kecil.
 -   Reduced motion dihormati.
 
@@ -1328,9 +1385,12 @@ berdasarkan asumsi.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- DESIGN v0.1**
+**Akhir Dokumen --- DESIGN v0.2**
 
-Status: Draft spesifikasi UI/UX dengan enam keputusan utama terkunci.
-Token warna rinci, font, logo, KPI dashboard, dan beberapa detail
-responsive tetap berstatus Proposed/TBD sampai direview melalui
-prototype dan diselaraskan dengan repository aktual.
+Status: Draft spesifikasi UI/UX v0.2 dengan enam keputusan visual utama
+terkunci dan landing page telah diturunkan ke PRD/SRS. Hak ranking per
+role (`TBD-015`), status `Dalam Evaluasi` (`TBD-001`), dan edit/hapus
+catatan (`TBD-002`) tetap mengikuti keputusan bisnis yang belum
+ditetapkan. Token warna rinci, font, logo, KPI dashboard, dan beberapa
+detail responsive tetap Proposed/TBD sampai direview melalui prototype
+dan audit repository.

@@ -2,26 +2,47 @@
 
 ## Sistem Informasi Manajemen UKM Polytechnic Linux Community
 
+  ---------------------------------------------------------------------
+  Informasi                          Keterangan
+  ---------------------------------- ----------------------------------
+  Nama sistem                        Sistem Informasi Manajemen UKM
+                                     Polytechnic Linux Community
+
+  Dokumen                            Software Requirements
+                                     Specification (SRS)
+
+  Versi                              0.2
+
+  Status                             Draft revisi --- diturunkan dari
+                                     PRD v0.2, laporan proyek, dan
+                                     keputusan desain yang dikunci
+
+  Tanggal                            4 November 2026
+
+  Dokumen induk                      `PRD.md`
+
+  Dokumen sumber                     `LAPORAN PROYEK RPL.docx`
+  ---------------------------------------------------------------------
+
+## Riwayat Revisi
+
   -----------------------------------------------------------------------
-  Informasi                           Keterangan
-  ----------------------------------- -----------------------------------
-  Nama sistem                         Sistem Informasi Manajemen UKM
-                                      Polytechnic Linux Community
+  Versi                   Tanggal                 Perubahan
+  ----------------------- ----------------------- -----------------------
+  0.1                     4 November 2026         Baseline requirement
+                                                  awal dari PRD v0.1 dan
+                                                  laporan proyek.
 
-  Dokumen                             Software Requirements Specification
-                                      (SRS)
-
-  Versi                               0.1
-
-  Status                              Draft --- diturunkan dari PRD v0.1
-                                      dan laporan proyek
-
-  Tanggal                             4 November 2026
-
-  Dokumen induk                       `PRD.md`
-
-  Dokumen sumber                      `LAPORAN PROYEK RPL.docx`
+  0.2                     4 November 2026         Menambahkan requirement
+                                                  landing page publik,
+                                                  use case pengunjung,
+                                                  serta memperjelas
+                                                  dependency TBD untuk
+                                                  ranking, status, dan
+                                                  catatan evaluasi.
   -----------------------------------------------------------------------
+
+------------------------------------------------------------------------
 
 > **Aturan pembacaan dokumen:** SRS ini harus dibaca bersama `PRD.md`.
 > Status **LOCKED** berarti keputusan telah disetujui. Status
@@ -68,52 +89,53 @@ keanggotaan, dan periode kepengurusan.
 
 ## 1.4 Definisi dan Istilah
 
-  -----------------------------------------------------------------------
-  Istilah                             Definisi
-  ----------------------------------- -----------------------------------
-  User                                Akun pengguna untuk autentikasi.
+  ---------------------------------------------------------------------
+  Istilah                            Definisi
+  ---------------------------------- ----------------------------------
+  User                               Akun pengguna untuk autentikasi.
 
-  Role                                Jabatan/peran yang menentukan
-                                      permission default.
+  Role                               Jabatan/peran yang menentukan
+                                     permission default.
 
-  Permission                          Hak untuk melakukan tindakan
-                                      tertentu di sistem.
+  Permission                         Hak untuk melakukan tindakan
+                                     tertentu di sistem.
 
-  Keanggotaan                         Hubungan User dengan role dan
-                                      periode kepengurusan, serta bidang
-                                      jika relevan.
+  Keanggotaan                        Hubungan User dengan role dan
+                                     periode kepengurusan, serta bidang
+                                     jika relevan.
 
-  Periode Kepengurusan                Rentang waktu berlakunya struktur
-                                      organisasi.
+  Periode Kepengurusan               Rentang waktu berlakunya struktur
+                                     organisasi.
 
-  Bidang                              Unit organisasi yang memiliki
-                                      program kerja dan anggota.
+  Bidang                             Unit organisasi yang memiliki
+                                     program kerja dan anggota.
 
-  Program Kerja                       Kegiatan/program yang diusulkan
-                                      oleh bidang.
+  Program Kerja                      Kegiatan/program yang diusulkan
+                                     oleh bidang.
 
-  PIC                                 Penanggung jawab program kerja yang
-                                      direferensikan melalui Keanggotaan.
+  PIC                                Penanggung jawab program kerja
+                                     yang direferensikan melalui
+                                     Keanggotaan.
 
-  SAW                                 Simple Additive Weighting, metode
-                                      untuk menghitung nilai preferensi
-                                      dan ranking alternatif.
+  SAW                                Simple Additive Weighting, metode
+                                     untuk menghitung nilai preferensi
+                                     dan ranking alternatif.
 
-  Alternatif                          Program kerja yang dinilai dalam
-                                      proses SAW.
+  Alternatif                         Program kerja yang dinilai dalam
+                                     proses SAW.
 
-  Benefit                             Kriteria yang nilai lebih besarnya
-                                      dianggap lebih baik.
+  Benefit                            Kriteria yang nilai lebih besarnya
+                                     dianggap lebih baik.
 
-  Cost                                Kriteria yang nilai lebih kecilnya
-                                      dianggap lebih baik.
+  Cost                               Kriteria yang nilai lebih kecilnya
+                                     dianggap lebih baik.
 
-  SPA                                 Single Page Application.
+  SPA                                Single Page Application.
 
-  Same-origin                         Frontend dan backend aplikasi utama
-                                      diakses melalui origin/domain yang
-                                      sama.
-  -----------------------------------------------------------------------
+  Same-origin                        Frontend dan backend aplikasi
+                                     utama diakses melalui
+                                     origin/domain yang sama.
+  ---------------------------------------------------------------------
 
 ## 1.5 Referensi
 
@@ -156,57 +178,57 @@ keputusan program kerja. 12. Pencatatan penyelesaian program kerja.
 
 ## 2.3 Karakteristik Pengguna
 
-  -----------------------------------------------------------------------
-  Pengguna                            Karakteristik dan tanggung jawab
-  ----------------------------------- -----------------------------------
-  Super Admin                         Mengelola administrasi sistem
-                                      secara global; tidak terikat
-                                      periode kepengurusan.
+  ---------------------------------------------------------------------
+  Pengguna                           Karakteristik dan tanggung jawab
+  ---------------------------------- ----------------------------------
+  Super Admin                        Mengelola administrasi sistem
+                                     secara global; tidak terikat
+                                     periode kepengurusan.
 
-  Pejabat Teras                       Melakukan evaluasi, penilaian,
-                                      melihat hasil ranking, dan terlibat
-                                      dalam keputusan program kerja
-                                      sesuai permission.
+  Pejabat Teras                      Melakukan evaluasi, penilaian,
+                                     melihat hasil ranking, dan
+                                     terlibat dalam keputusan program
+                                     kerja sesuai permission.
 
-  Ketua Umum                          Termasuk Pejabat Teras; memiliki
-                                      permission tambahan
-                                      `saw.weights.manage` pada
-                                      keanggotaan terkait.
+  Ketua Umum                         Termasuk Pejabat Teras; memiliki
+                                     permission tambahan
+                                     `saw.weights.manage` pada
+                                     keanggotaan terkait.
 
-  Ketua Bidang                        Meninjau draft dan mengajukan
-                                      program kerja bidang sesuai
-                                      kewenangan.
+  Ketua Bidang                       Meninjau draft dan mengajukan
+                                     program kerja bidang sesuai
+                                     kewenangan.
 
-  Pengurus Bidang                     Menyusun dan mengelola draft
-                                      program kerja sesuai kewenangan.
-  -----------------------------------------------------------------------
+  Pengurus Bidang                    Menyusun dan mengelola draft
+                                     program kerja sesuai kewenangan.
+  ---------------------------------------------------------------------
 
 Ketua Umum bukan role terpisah. Ketua Umum menggunakan role Pejabat
 Teras dan memperoleh permission tambahan yang relevan.
 
 ## 2.4 Lingkungan Operasi
 
-  -----------------------------------------------------------------------
-  Komponen                            Ketentuan
-  ----------------------------------- -----------------------------------
-  Client                              Browser web pada perangkat
-                                      pengguna.
+  ---------------------------------------------------------------------
+  Komponen                           Ketentuan
+  ---------------------------------- ----------------------------------
+  Client                             Browser web pada perangkat
+                                     pengguna.
 
-  Frontend                            React + TypeScript.
+  Frontend                           React + TypeScript.
 
-  Backend                             Laravel.
+  Backend                            Laravel.
 
-  Database                            MySQL sebagai baseline dokumen;
-                                      versi dan konfigurasi harus
-                                      diverifikasi dari repository.
+  Database                           MySQL sebagai baseline dokumen;
+                                     versi dan konfigurasi harus
+                                     diverifikasi dari repository.
 
-  SAW service                         Python melalui REST API internal.
+  SAW service                        Python melalui REST API internal.
 
-  Deployment                          Same-origin untuk frontend dan
-                                      backend aplikasi utama.
+  Deployment                         Same-origin untuk frontend dan
+                                     backend aplikasi utama.
 
-  Repository                          Monorepo.
-  -----------------------------------------------------------------------
+  Repository                         Monorepo.
+  ---------------------------------------------------------------------
 
 Versi Laravel, PHP, Node.js, React, TypeScript, Vite, MySQL, dan Python
 tidak ditentukan dalam SRS ini. Versi aktual harus mengikuti hasil audit
@@ -252,13 +274,13 @@ relevan, tetapi semua tindakan tetap harus diverifikasi oleh backend.
 Daftar halaman dan spesifikasi visual rinci ditetapkan dalam
 `DESIGN.md`, bukan ditentukan sepenuhnya dalam SRS ini.
 
-Halaman fungsional yang diperlukan berdasarkan ruang lingkup: - Login. -
-Dashboard. - Administrasi pengguna. - Pengelolaan periode
-kepengurusan. - Pengelolaan bidang dan keanggotaan. - Daftar dan detail
-program kerja. - Form draft/pengajuan program kerja. - Evaluasi dan
-catatan program kerja. - Penilaian SAW. - Pengaturan kriteria dan bobot
-SAW. - Hasil ranking. - Riwayat keputusan dan penyelesaian program
-kerja.
+Halaman fungsional yang diperlukan berdasarkan ruang lingkup: - Public
+Landing Page (dapat diakses tanpa autentikasi). - Login. - Dashboard. -
+Administrasi pengguna. - Pengelolaan periode kepengurusan. - Pengelolaan
+bidang dan keanggotaan. - Daftar dan detail program kerja. - Form
+draft/pengajuan program kerja. - Evaluasi dan catatan program kerja. -
+Penilaian SAW. - Pengaturan kriteria dan bobot SAW. - Hasil ranking. -
+Riwayat keputusan dan penyelesaian program kerja.
 
 Keberadaan halaman tersebut tidak berarti setiap role otomatis memiliki
 akses. Hak akses mengikuti matriks permission yang ditetapkan di
@@ -266,28 +288,28 @@ backend.
 
 ## 3.2 Antarmuka Perangkat Lunak --- Laravel API
 
-  -----------------------------------------------------------------------
-  Aspek                               Ketentuan
-  ----------------------------------- -----------------------------------
-  Gaya komunikasi                     REST API
+  ---------------------------------------------------------------------
+  Aspek                              Ketentuan
+  ---------------------------------- ----------------------------------
+  Gaya komunikasi                    REST API
 
-  Prefix                              `/api/v1`
+  Prefix                             `/api/v1`
 
-  Format data                         JSON
+  Format data                        JSON
 
-  Authentication                      Sanctum cookie-based session
+  Authentication                     Sanctum cookie-based session
 
-  Validasi                            Backend Laravel
+  Validasi                           Backend Laravel
 
-  Authorization                       Middleware, permission, dan policy
+  Authorization                      Middleware, permission, dan policy
 
-  Response                            Konsisten melalui API
-                                      Resource/standar response yang
-                                      disepakati
+  Response                           Konsisten melalui API
+                                     Resource/standar response yang
+                                     disepakati
 
-  Error                               Menggunakan HTTP status code yang
-                                      sesuai dan format error konsisten
-  -----------------------------------------------------------------------
+  Error                              Menggunakan HTTP status code yang
+                                     sesuai dan format error konsisten
+  ---------------------------------------------------------------------
 
 Endpoint autentikasi yang direncanakan: - `GET /sanctum/csrf-cookie` -
 `POST /login` - `POST /logout` - `GET /api/v1/me`
@@ -337,6 +359,51 @@ JSON, presisi desimal, struktur error, timeout, dan versi kontrak.
 Setiap requirement memiliki ID unik. Prioritas `Must` menunjukkan
 kebutuhan inti sesuai PRD. Kebutuhan yang berstatus TBD tidak boleh
 diimplementasikan dengan asumsi yang tidak disetujui.
+
+## Public Landing Page
+
+### FR-PUB-01 --- Akses Landing Page Publik
+
+**Prioritas:** Must
+
+Sistem harus menyediakan landing page yang dapat diakses pengunjung
+tanpa session autentikasi.
+
+**Kriteria penerimaan:** - Pengunjung yang belum login dapat membuka
+route landing page. - Route publik tidak mewajibkan session Sanctum. -
+Halaman publik tidak memberikan akses ke resource privat.
+
+### FR-PUB-02 --- Konten Landing Page
+
+**Prioritas:** Must
+
+Landing page menampilkan lima bagian: navigation, hero, feature
+highlights, closing CTA, dan footer. Konten memperkenalkan sistem secara
+singkat dan tidak menampilkan data privat.
+
+### FR-PUB-03 --- Navigasi Section
+
+**Prioritas:** Must
+
+Item navigasi yang menunjuk section landing page mengarahkan pengguna
+melalui anchor/scroll pada halaman yang sama.
+
+### FR-PUB-04 --- CTA Login
+
+**Prioritas:** Must
+
+CTA `Masuk` mengarahkan pengunjung ke halaman login. Setelah autentikasi
+berhasil, alur dilanjutkan sesuai FR-AUTH-01.
+
+### FR-PUB-05 --- Batasan Akses Publik
+
+**Prioritas:** Must
+
+Landing page tidak menyediakan self-registration, pengajuan program
+kerja, akses dashboard internal, atau akses data organisasi yang
+memerlukan autentikasi dan authorization.
+
+------------------------------------------------------------------------
 
 ## 4.1 Autentikasi
 
@@ -614,7 +681,9 @@ program kerja.
 
 **Kriteria penerimaan:** - Catatan terhubung dengan program kerja. -
 Catatan menyimpan referensi keanggotaan pembuat. - Waktu pembuatan
-catatan disimpan. - Kebijakan edit/hapus catatan masih TBD.
+catatan disimpan. - Kebijakan edit/hapus catatan masih TBD-002. -
+Sebelum TBD-002 diputuskan, UI dan API tidak boleh mengasumsikan operasi
+edit atau hapus.
 
 ### FR-PRO-09 --- Memperbaiki Program Kerja
 
@@ -638,10 +707,14 @@ Keputusan sebelumnya tidak boleh ditimpa ketika keputusan baru dicatat.
 Status yang tercantum dalam dokumen proyek: - `Draft` - `Diajukan` -
 `Revisi` - `Disetujui` - `Ditolak` - `Selesai`
 
-**BASELINE:** enam status tersebut tercantum pada laporan proyek.
+**BASELINE:** enam status tersebut tercantum pada laporan proyek dan
+menjadi daftar status baseline v0.2: `Draft`, `Diajukan`, `Revisi`,
+`Disetujui`, `Ditolak`, dan `Selesai`.
 
-**TBD:** apakah perlu status tambahan `Dalam Evaluasi` dan transisi
-final setiap status.
+**TBD-001:** apakah status tambahan `Dalam Evaluasi` diperlukan. Status
+tersebut belum menjadi status operasional dan tidak boleh ditambahkan ke
+enum, validasi, filter, atau transisi sebelum keputusan pemilik proyek.
+Transisi final setiap status juga harus difinalisasi.
 
 ### FR-PRO-12 --- Menandai Selesai
 
@@ -750,8 +823,14 @@ desain database.
 Sistem menampilkan hasil nilai preferensi dan peringkat untuk alternatif
 dalam proses SAW.
 
-**TBD:** role yang boleh melihat ranking, filter periode, dan perilaku
-jika nilai preferensi sama.
+**Baseline akses yang diketahui:** Pejabat Teras dapat melihat ranking;
+Ketua Umum termasuk Pejabat Teras dan mewarisi akses tersebut.
+
+**TBD-015:** hak Super Admin, Ketua Bidang, dan Pengurus Bidang untuk
+melihat ranking belum ditetapkan. Sistem wajib memeriksa permission di
+backend dan tidak boleh memberikan akses kepada role yang belum
+ditetapkan. Filter periode dan perilaku jika nilai preferensi sama tetap
+mengikuti keputusan terkait.
 
 ------------------------------------------------------------------------
 
@@ -787,90 +866,96 @@ terbuka.
 
 ## 5.1 Aturan LOCKED
 
-  -----------------------------------------------------------------------
-  ID                                  Aturan
-  ----------------------------------- -----------------------------------
-  BR-001                              Ketua Umum termasuk Pejabat Teras
-                                      dan bukan role terpisah.
+  ---------------------------------------------------------------------
+  ID                                 Aturan
+  ---------------------------------- ----------------------------------
+  BR-001                             Ketua Umum termasuk Pejabat Teras
+                                     dan bukan role terpisah.
 
-  BR-002                              Ketua Umum memperoleh permission
-                                      tambahan `saw.weights.manage` pada
-                                      keanggotaan terkait.
+  BR-002                             Ketua Umum memperoleh permission
+                                     tambahan `saw.weights.manage` pada
+                                     keanggotaan terkait.
 
-  BR-003                              Satu User hanya memiliki satu
-                                      Keanggotaan dalam satu Periode
-                                      Kepengurusan.
+  BR-003                             Satu User hanya memiliki satu
+                                     Keanggotaan dalam satu Periode
+                                     Kepengurusan.
 
-  BR-004                              Super Admin merupakan role global
-                                      dan tidak terikat periode.
+  BR-004                             Super Admin merupakan role global
+                                     dan tidak terikat periode.
 
-  BR-005                              Permission catalog bersifat tetap
-                                      dan didefinisikan developer.
+  BR-005                             Permission catalog bersifat tetap
+                                     dan didefinisikan developer.
 
-  BR-006                              Role mempunyai permission default.
+  BR-006                             Role mempunyai permission default.
 
-  BR-007                              Permission override melekat pada
-                                      Keanggotaan.
+  BR-007                             Permission override melekat pada
+                                     Keanggotaan.
 
-  BR-008                              Permission override mendukung
-                                      keadaan Inherit, Grant, dan Deny.
+  BR-008                             Permission override mendukung
+                                     keadaan Inherit, Grant, dan Deny.
 
-  BR-009                              Keputusan override Keanggotaan
-                                      diprioritaskan terhadap permission
-                                      default role.
+  BR-009                             Keputusan override Keanggotaan
+                                     diprioritaskan terhadap permission
+                                     default role.
 
-  BR-010                              Satu Program Kerja dapat memiliki
-                                      lebih dari satu PIC.
+  BR-010                             Satu Program Kerja dapat memiliki
+                                     lebih dari satu PIC.
 
-  BR-011                              PIC direferensikan melalui
-                                      Keanggotaan.
+  BR-011                             PIC direferensikan melalui
+                                     Keanggotaan.
 
-  BR-012                              Riwayat keputusan Program Kerja
-                                      disimpan, bukan ditimpa.
+  BR-012                             Riwayat keputusan Program Kerja
+                                     disimpan, bukan ditimpa.
 
-  BR-013                              Kriteria dan bobot SAW dikelola per
-                                      periode.
+  BR-013                             Kriteria dan bobot SAW dikelola
+                                     per periode.
 
-  BR-014                              Skala nilai mengikuti karakteristik
-                                      kriteria; anggaran menggunakan
-                                      nominal rupiah dalam rancangan.
+  BR-014                             Skala nilai mengikuti
+                                     karakteristik kriteria; anggaran
+                                     menggunakan nominal rupiah dalam
+                                     rancangan.
 
-  BR-015                              Riwayat proses SAW disimpan sebagai
-                                      proses terpisah.
+  BR-015                             Riwayat proses SAW disimpan
+                                     sebagai proses terpisah.
 
-  BR-016                              Laravel memanggil Python SAW
-                                      Service secara synchronous.
+  BR-016                             Laravel memanggil Python SAW
+                                     Service secara synchronous.
 
-  BR-017                              Frontend dan backend utama
-                                      menggunakan same-origin deployment.
+  BR-017                             Frontend dan backend utama
+                                     menggunakan same-origin
+                                     deployment.
 
-  BR-018                              Autentikasi menggunakan Sanctum
-                                      cookie-based session, tanpa JWT.
-  -----------------------------------------------------------------------
+  BR-018                             Autentikasi menggunakan Sanctum
+                                     cookie-based session, tanpa JWT.
+  ---------------------------------------------------------------------
+
+**BR-019 --- Public landing page:** dapat diakses tanpa autentikasi,
+bersifat informatif, dan tidak menyediakan self-registration atau akses
+data internal.
 
 ## 5.2 Aturan BASELINE dari Laporan Proyek
 
-  -----------------------------------------------------------------------
-  ID                                  Aturan/Informasi
-  ----------------------------------- -----------------------------------
-  BR-BL-001                           Status program kerja yang
-                                      dicantumkan: Draft, Diajukan,
-                                      Revisi, Disetujui, Ditolak,
-                                      Selesai.
+  ---------------------------------------------------------------------
+  ID                                 Aturan/Informasi
+  ---------------------------------- ----------------------------------
+  BR-BL-001                          Status program kerja yang
+                                     dicantumkan: Draft, Diajukan,
+                                     Revisi, Disetujui, Ditolak,
+                                     Selesai.
 
-  BR-BL-002                           Kriteria SAW berjumlah lima sesuai
-                                      daftar pada Bagian 4.5.
+  BR-BL-002                          Kriteria SAW berjumlah lima sesuai
+                                     daftar pada Bagian 4.5.
 
-  BR-BL-003                           Hasil SAW digunakan sebagai bahan
-                                      pertimbangan rapat pleno.
+  BR-BL-003                          Hasil SAW digunakan sebagai bahan
+                                     pertimbangan rapat pleno.
 
-  BR-BL-004                           Keputusan program kerja meliputi
-                                      Revisi, Disetujui, dan Ditolak.
+  BR-BL-004                          Keputusan program kerja meliputi
+                                     Revisi, Disetujui, dan Ditolak.
 
-  BR-BL-005                           Formula SAW mengikuti normalisasi
-                                      benefit/cost dan penjumlahan
-                                      terbobot.
-  -----------------------------------------------------------------------
+  BR-BL-005                          Formula SAW mengikuti normalisasi
+                                     benefit/cost dan penjumlahan
+                                     terbobot.
+  ---------------------------------------------------------------------
 
 ## 5.3 Aturan yang Masih TBD
 
@@ -1011,102 +1096,103 @@ relasi secara seragam tanpa memeriksa dampak bisnis.
 
 ## 7.1 Keamanan
 
-  -----------------------------------------------------------------------
-  ID                                  Requirement
-  ----------------------------------- -----------------------------------
-  NFR-SEC-01                          Password disimpan menggunakan
-                                      hashing yang aman.
+  ---------------------------------------------------------------------
+  ID                                 Requirement
+  ---------------------------------- ----------------------------------
+  NFR-SEC-01                         Password disimpan menggunakan
+                                     hashing yang aman.
 
-  NFR-SEC-02                          Endpoint privat memerlukan session
-                                      autentikasi yang valid.
+  NFR-SEC-02                         Endpoint privat memerlukan session
+                                     autentikasi yang valid.
 
-  NFR-SEC-03                          Backend memeriksa authorization
-                                      untuk setiap operasi yang
-                                      dilindungi.
+  NFR-SEC-03                         Backend memeriksa authorization
+                                     untuk setiap operasi yang
+                                     dilindungi.
 
-  NFR-SEC-04                          Implementasi Sanctum mengikuti
-                                      perlindungan CSRF dan cookie yang
-                                      sesuai.
+  NFR-SEC-04                         Implementasi Sanctum mengikuti
+                                     perlindungan CSRF dan cookie yang
+                                     sesuai.
 
-  NFR-SEC-05                          Secret, password, dan kredensial
-                                      layanan tidak boleh ditanam di
-                                      source code.
+  NFR-SEC-05                         Secret, password, dan kredensial
+                                     layanan tidak boleh ditanam di
+                                     source code.
 
-  NFR-SEC-06                          Pesan error tidak membocorkan stack
-                                      trace, secret, atau detail internal
-                                      pada production.
+  NFR-SEC-06                         Pesan error tidak membocorkan
+                                     stack trace, secret, atau detail
+                                     internal pada production.
 
-  NFR-SEC-07                          Input divalidasi di backend.
-  -----------------------------------------------------------------------
+  NFR-SEC-07                         Input divalidasi di backend.
+  ---------------------------------------------------------------------
 
 ## 7.2 Integritas dan Konsistensi
 
-  -----------------------------------------------------------------------
-  ID                                  Requirement
-  ----------------------------------- -----------------------------------
-  NFR-DATA-01                         Relasi data penting dilindungi
-                                      constraint database.
+  ---------------------------------------------------------------------
+  ID                                 Requirement
+  ---------------------------------- ----------------------------------
+  NFR-DATA-01                        Relasi data penting dilindungi
+                                     constraint database.
 
-  NFR-DATA-02                         Operasi multi-data menggunakan
-                                      transaksi jika diperlukan.
+  NFR-DATA-02                        Operasi multi-data menggunakan
+                                     transaksi jika diperlukan.
 
-  NFR-DATA-03                         Riwayat keputusan tidak ditimpa
-                                      oleh keputusan baru.
+  NFR-DATA-03                        Riwayat keputusan tidak ditimpa
+                                     oleh keputusan baru.
 
-  NFR-DATA-04                         Riwayat proses SAW tidak ditimpa
-                                      oleh proses baru.
+  NFR-DATA-04                        Riwayat proses SAW tidak ditimpa
+                                     oleh proses baru.
 
-  NFR-DATA-05                         Kegagalan Python tidak menghapus
-                                      penilaian yang sudah tersimpan.
-  -----------------------------------------------------------------------
+  NFR-DATA-05                        Kegagalan Python tidak menghapus
+                                     penilaian yang sudah tersimpan.
+  ---------------------------------------------------------------------
 
 ## 7.3 Maintainability
 
-  -----------------------------------------------------------------------
-  ID                                  Requirement
-  ----------------------------------- -----------------------------------
-  NFR-MNT-01                          Pemisahan frontend dan backend
-                                      dilakukan berdasarkan tanggung
-                                      jawab.
+  ---------------------------------------------------------------------
+  ID                                 Requirement
+  ---------------------------------- ----------------------------------
+  NFR-MNT-01                         Pemisahan frontend dan backend
+                                     dilakukan berdasarkan tanggung
+                                     jawab.
 
-  NFR-MNT-02                          Business logic tidak ditumpuk
-                                      seluruhnya dalam Controller.
+  NFR-MNT-02                         Business logic tidak ditumpuk
+                                     seluruhnya dalam Controller.
 
-  NFR-MNT-03                          Permission catalog dan aturan
-                                      bisnis memiliki sumber definisi
-                                      yang konsisten.
+  NFR-MNT-03                         Permission catalog dan aturan
+                                     bisnis memiliki sumber definisi
+                                     yang konsisten.
 
-  NFR-MNT-04                          Perubahan database dilakukan
-                                      melalui migration yang dapat
-                                      ditelusuri.
+  NFR-MNT-04                         Perubahan database dilakukan
+                                     melalui migration yang dapat
+                                     ditelusuri.
 
-  NFR-MNT-05                          Implementasi mengikuti struktur dan
-                                      konvensi repository aktual.
-  -----------------------------------------------------------------------
+  NFR-MNT-05                         Implementasi mengikuti struktur
+                                     dan konvensi repository aktual.
+  ---------------------------------------------------------------------
 
 ## 7.4 Pengujian
 
-  -----------------------------------------------------------------------
-  ID                                  Requirement
-  ----------------------------------- -----------------------------------
-  NFR-TST-01                          Fitur inti memiliki pengujian
-                                      fungsional.
+  ---------------------------------------------------------------------
+  ID                                 Requirement
+  ---------------------------------- ----------------------------------
+  NFR-TST-01                         Fitur inti memiliki pengujian
+                                     fungsional.
 
-  NFR-TST-02                          Authorization diuji untuk pengguna
-                                      yang berhak dan tidak berhak.
+  NFR-TST-02                         Authorization diuji untuk pengguna
+                                     yang berhak dan tidak berhak.
 
-  NFR-TST-03                          Perhitungan SAW diuji menggunakan
-                                      contoh input dan hasil yang dapat
-                                      diverifikasi.
+  NFR-TST-03                         Perhitungan SAW diuji menggunakan
+                                     contoh input dan hasil yang dapat
+                                     diverifikasi.
 
-  NFR-TST-04                          Integrasi Laravel-Python diuji
-                                      untuk respons sukses dan kegagalan.
+  NFR-TST-04                         Integrasi Laravel-Python diuji
+                                     untuk respons sukses dan
+                                     kegagalan.
 
-  NFR-TST-05                          Perubahan tidak boleh dianggap
-                                      selesai sebelum pengujian yang
-                                      relevan dijalankan atau
-                                      keterbatasannya dilaporkan.
-  -----------------------------------------------------------------------
+  NFR-TST-05                         Perubahan tidak boleh dianggap
+                                     selesai sebelum pengujian yang
+                                     relevan dijalankan atau
+                                     keterbatasannya dilaporkan.
+  ---------------------------------------------------------------------
 
 ## 7.5 Reliability dan Error Handling
 
@@ -1128,6 +1214,23 @@ backup, dan recovery belum ditetapkan.
 Use case berikut diturunkan dari aktor, alur activity diagram, dan
 sequence diagram pada laporan proyek serta requirement PRD. Detail
 permission tertentu yang belum diputuskan tetap ditandai TBD.
+
+## UC-PUB-01 --- Mengakses Landing Page Publik
+
+**Aktor:** Pengunjung (belum terautentikasi).
+
+**Prasyarat:** Pengunjung dapat mengakses alamat aplikasi.
+
+**Alur utama:** 1. Pengunjung membuka alamat aplikasi. 2. Sistem
+menampilkan landing page publik. 3. Pengunjung menggunakan navigasi
+anchor untuk membaca section. 4. Pengunjung memilih CTA `Masuk`. 5.
+Sistem mengarahkan pengunjung ke halaman login.
+
+**Alur alternatif:** Pengunjung dapat meninggalkan landing page tanpa
+melakukan login.
+
+**Pascakondisi:** Tidak ada session autentikasi yang dibuat hanya dengan
+membuka landing page.
 
 ## UC-01 --- Login
 
@@ -1516,6 +1619,10 @@ memberikan keputusan.
                           berulang                
   -----------------------------------------------------------------------
 
+Klarifikasi `TBD-015`: Pejabat Teras, termasuk Ketua Umum, tercantum
+memiliki akses ranking pada matriks kewenangan PRD. Hak Super Admin,
+Ketua Bidang, dan Pengurus Bidang belum ditetapkan.
+
 AI coding agent harus meminta klarifikasi jika TBD memengaruhi fitur
 yang sedang dikerjakan dan tidak dapat ditangani tanpa menetapkan aturan
 bisnis baru.
@@ -1525,6 +1632,10 @@ bisnis baru.
 # 11. Traceability Matrix
 
 Pemetaan requirement ke bagian PRD dan sumber laporan proyek.
+
+Catatan v0.2: Public Landing Page dipetakan ke FR-PUB-01 s.d. FR-PUB-05
+dan UC-PUB-01. Sumbernya adalah keputusan ruang lingkup publik v0.2,
+bukan use case pada laporan awal.
 
   -----------------------------------------------------------------------
   Kelompok SRS            Referensi PRD           Referensi laporan
@@ -1598,22 +1709,21 @@ Sebelum mengimplementasikan requirement:
 
 ## Format Laporan Audit Requirement
 
-  --------------------------------------------------------------------------
-  Requirement ID Kondisi        Gap            Rekomendasi    Status
-                 repository                                   
-  -------------- -------------- -------------- -------------- --------------
-  FR-AUTH-01     Belum diaudit  Belum          Audit setelah  Pending
-                                diketahui      ZIP tersedia   
+  ---------------------------------------------------------------------
+  Requirement   Kondisi       Gap           Rekomendasi   Status
+  ID            repository                                
+  ------------- ------------- ------------- ------------- -------------
+  FR-AUTH-01    Belum diaudit Belum         Audit setelah Pending
+                              diketahui     ZIP tersedia  
 
-  --------------------------------------------------------------------------
+  ---------------------------------------------------------------------
 
 Status yang boleh digunakan: - `Implemented` - `Partially Implemented` -
 `Not Implemented` - `Failing` - `Needs Clarification` - `Not Audited`
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- SRS v0.1**
+**Akhir Dokumen --- SRS v0.2**
 
-Status: Draft kerja yang diturunkan dari PRD v0.1 dan laporan proyek.
-SRS harus diperbarui ketika requirement dan keputusan TBD telah
-disepakati.
+Status: Draft revisi v0.2 yang diturunkan dari PRD v0.2, laporan proyek,
+dan keputusan perencanaan. TBD-001, TBD-002, dan TBD-015 tetap terbuka.
