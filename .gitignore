@@ -16,9 +16,16 @@
 /public/build
 /public/hot
 /public/storage
+/bootstrap/cache/*.php
+/database/*.sqlite
+/database/*.sqlite-journal
 /storage/*.key
 /storage/pail
 /vendor
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Python generated cache
+__pycache__/
+*.pyc

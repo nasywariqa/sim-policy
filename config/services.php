@@ -14,6 +14,11 @@ return [
     |
     */
 
+    'saw' => [
+        'url' => env('SAW_SERVICE_URL', 'http://127.0.0.1:8010'),
+        'token' => env('SAW_SERVICE_TOKEN'),
+    ],
+
     'postmark' => [
         'key' => env('POSTMARK_API_KEY'),
     ],

@@ -7,11 +7,11 @@
   ----------------------------------- -----------------------------------
   Dokumen                             Development Phases & Work Breakdown
 
-  Versi                               1.0
+  Versi                               1.2
 
-  Tanggal                             4 November 2026
+  Tanggal                             8 November 2026
 
-  Status                              **APPROVED BASELINE**
+  Status                              **APPROVED BASELINE - MVP IMPLEMENTED; QA PENDING**
 
   Project                             `sim-ukm-plc`
 
@@ -19,7 +19,8 @@
 
   Acuan                               `PRD.md`, `SRS.md`,
                                       `ARCHITECTURE.md`, `DESIGN.md`, dan
-                                      audit `sim-ukm-plc-audit.zip`
+                                      audit ZIP terbaru
+                                      `sim-ukm-plc-current.zip`
   -----------------------------------------------------------------------
 
 > **Fungsi dokumen:** menjadi sumber konteks utama untuk urutan fase,
@@ -193,7 +194,7 @@ final. Verifikasi dan kunci pada Phase 0.
 
 # 3. Kondisi Awal Repository Berdasarkan ZIP Audit
 
-Audit dilakukan terhadap file `sim-ukm-plc-audit.zip` yang dikirim pada
+Audit dilakukan terhadap file `sim-ukm-plc-phase-0.zip` yang dikirim pada
 4 November 2026. Kondisi ini adalah snapshot saat ZIP dibuat; jika
 repository berubah setelah itu, periksa kondisi terbaru sebelum memberi
 patch.
@@ -203,38 +204,51 @@ patch.
   -----------------------------------------------------------------------
   Komponen                            Kondisi saat audit
   ----------------------------------- -----------------------------------
-  Laravel                             Laravel Framework 13.40.0
+  Laravel                             Laravel Framework `v13.40.0` pada
+                                      `composer.lock`
 
   Composer requirement                PHP `^8.3`, Laravel `^13.0`
 
   Composer lock                       Ada
 
-  Vite                                Sudah tersedia
+  Vite                                `^7.0.7` pada `package.json`
 
-  Tailwind CSS                        Dependency Tailwind CSS v4 dan
-                                      plugin Vite tersedia
+  Laravel Vite plugin                 `^2.0.0`
 
-  Axios                               Dependency tersedia
+  Tailwind CSS                        `^4.0.0` dengan
+                                      `@tailwindcss/vite` `^4.0.0`
 
-  React                               Belum terpasang
+  Axios                               `^1.11.0`
 
-  TypeScript                          Belum dikonfigurasi
+  React                               Belum ada pada `package.json`
 
-  Sanctum                             Belum terpasang
+  TypeScript                          Belum ada dependency atau
+                                      konfigurasi TypeScript
 
-  API routes                          Belum ada route API aplikasi; yang
-                                      ada `routes/web.php`
+  Sanctum                             Belum ada pada `composer.json`
 
-  Web route                           Route `/` masih mengembalikan view
-                                      `welcome`
+  API routes                          `bootstrap/app.php` belum
+                                      mendaftarkan `routes/api.php`;
+                                      file tersebut belum tersedia
+
+  Web route                           `routes/web.php` hanya memetakan
+                                      `/` ke view `welcome`
 
   Model                               Baru model `User` bawaan
 
-  Migration                           Migration bawaan users, cache, jobs
+  Migration                           Tiga migration bawaan Laravel:
+                                      users, cache, jobs
 
-  Database config example             SQLite pada `.env.example`
+  Database config example             `.env.example` menetapkan
+                                      `DB_CONNECTION=sqlite`
 
-  Database baseline dokumen           MySQL, perlu dikonfirmasi
+  Database fallback                   `config/database.php` menggunakan
+                                      `sqlite` sebagai fallback
+
+  Database file                       `database/database.sqlite`
+                                      tersedia pada ZIP
+
+  Database baseline dokumen           MySQL; final engine belum diputuskan
 
   Python SAW service                  Belum ada
 
@@ -247,9 +261,8 @@ patch.
   Vite input                          `resources/css/app.css`,
                                       `resources/js/app.js`
 
-  npm lockfile                        Tidak terlihat pada ZIP audit;
-                                      verifikasi kondisi terbaru sebelum
-                                      install/build
+  npm lockfile                        Tidak ada pada ZIP; verifikasi ulang
+                                      sebelum instalasi dependency
   -----------------------------------------------------------------------
 
 ## 3.2 Konsekuensi terhadap Pengerjaan
@@ -332,9 +345,10 @@ Urutan berikut merupakan roadmap yang disetujui:
 
 ## PHASE 0 --- Requirement Alignment & Planning
 
-**Status:** Belum dimulai\
-**Tujuan:** menyelesaikan keputusan yang diperlukan sebelum implementasi
-terkait dimulai. Tidak membuat fitur aplikasi pada fase ini.
+**Status:** Complete for MVP foundation; business TBD items remain open.
+**Tujuan:** menyelaraskan keputusan teknis fondasi dan memastikan
+keputusan bisnis yang belum selesai tetap ditandai sebagai asumsi
+sementara, bukan keputusan final.
 
 ### Task
 
@@ -398,12 +412,70 @@ dicross-reference ke PRD jika relevan. - Ringkasan status TBD di bagian
 akhir PRD perlu diperiksa karena tidak mencerminkan seluruh daftar TBD
 yang masih ada di tabelnya.
 
+### Cross-reference TBD antar dokumen
+
+Nomor TBD bersifat lokal per dokumen. Nomor yang sama pada PRD, SRS,
+ARCHITECTURE, atau DESIGN tidak otomatis merujuk pada topik yang sama.
+Pemetaan berikut berdasarkan topik, bukan penyamaan nomor.
+
+| Topik | PRD | SRS | Referensi terkait | Catatan |
+|---|---|---|---|---|
+| Status `Dalam Evaluasi` | TBD-001 | TBD-001 | DESIGN UI-TBD-13 | Topik sama |
+| Edit/hapus catatan evaluasi | TBD-002 | TBD-002 | DESIGN UI-TBD-15 | Topik sama |
+| PIC lintas bidang | TBD-003 | TBD-003 | â€” | Topik sama |
+| Pemetaan benefit/cost | TBD-004 | TBD-004 | â€” | Topik sama |
+| Total bobot | TBD-005 | TBD-005 | â€” | Topik sama |
+| Anggaran Rp0 | TBD-006 | TBD-006 | â€” | Topik sama |
+| Normalisasi SAW nilai nol | TBD-007 | TBD-007 | â€” | Topik sama |
+| Tie/ranking sama | TBD-008 | TBD-008 | â€” | Topik sama |
+| Snapshot SAW | TBD-009 | TBD-009 | ARCH ARC-TBD-08 | Topik sama |
+| Reset/aktivasi akun | TBD-010 | TBD-010 | â€” | Topik sama |
+| Kebijakan penghapusan data | TBD-011 | TBD-011 | â€” | Topik sama |
+| Periode aktif | TBD-012 | TBD-012 | â€” | Topik sama |
+| Keputusan pleno: aktor dan pengulangan | TBD-013 | TBD-022 | â€” | Nomor berbeda, topik sama |
+| Pergantian jabatan dalam periode | â€” | TBD-013 | â€” | Tidak memiliki pasangan TBD langsung pada PRD; perlu ditelusuri terhadap aturan keanggotaan |
+| Aktor/bukti penyelesaian | TBD-014 | TBD-014 | â€” | Topik sama |
+| Visibilitas ranking | TBD-015 | TBD-015 | DESIGN UI-TBD-14 | Topik sama |
+| Database engine final | TBD-016 | TBD-017 | ARCH ARC-TBD-01 | Nomor berbeda, topik sama |
+| Deployment/hosting | TBD-017 | TBD-018 | ARCH ARC-TBD-12 | Nomor berbeda, topik sama |
+| Detail UI/UX | TBD-018 | â€” | DESIGN UI-TBD-01 s.d. UI-TBD-15 | Tidak ada satu TBD SRS yang menjadi pasangan langsung |
+| Kontrak API Python | â€” | TBD-016 | ARCH ARC-TBD-06 | Tidak memiliki pasangan TBD PRD langsung |
+| Field wajib dan batas validasi form | â€” | TBD-019 | Requirement fields pada modul terkait | Tidak ada TBD PRD langsung; perlu ditelusuri per form |
+| Hak CRUD data Bidang | â€” | TBD-020 | PRD bagian 2.4 dan 3.3 | Gap kewenangan yang perlu diputuskan |
+| Visibilitas program kerja lintas bidang | â€” | TBD-021 | PRD bagian 2.4 dan 3.5 | Gap kewenangan/visibilitas yang perlu diputuskan |
+
+Cross-reference ini tidak menghapus atau mengganti nomor ID pada dokumen
+sumber. `SRS TBD-013` membahas pergantian jabatan dalam periode yang sama,
+sedangkan `PRD TBD-013` membahas aktor dan pengulangan keputusan pleno.
+`SRS TBD-016` membahas kontrak API Python, sedangkan `PRD TBD-016`
+membahas database final.
+
+### Status pekerjaan Phase 0 setelah audit awal
+
+| Task | Status | Hasil |
+|---|---|---|
+| P0-01 Audit dokumen dan repository | Selesai | Gap dokumen dan struktur repository terbaru telah diperiksa |
+| P0-02 Cross-reference ID TBD | Selesai | Cross-reference berdasarkan topik tersedia |
+| P0-03 Sinkronisasi dokumen | Selesai pada patch ini | PRD/SRS/ARCHITECTURE/PHASES diselaraskan dengan keputusan dan audit MVP |
+| P0-04 Konfirmasi database engine | LOCKED | MySQL untuk development dan production; migration serta seeder berhasil dijalankan pemilik proyek |
+| P0-05 Routing React dan struktur frontend | Selected | React Router DOM v7 BrowserRouter pada React SPA same-origin |
+| P0-06 API response/error convention | Selected | JSON `data` untuk resource, `message` untuk aksi, error validasi default Laravel |
+| P0-07 Dependency frontend | Selected | React, React DOM, React Router DOM, TypeScript, Vite React plugin, Tailwind, Axios; tanpa state manager/form library tambahan |
+| P0-08 Keputusan TBD untuk fase terdekat | Berjalan dengan asumsi MVP | TBD bisnis yang belum final tetap terbuka; asumsi demo dicatat di `RUN_DEMO.md` |
+| P0-09 Workflow Git dan milestone | Baseline disetujui | Patch terfokus, pemeriksaan minimum, review, lalu commit |
+
+Phase 0 selesai untuk fondasi MVP: database, routing, convention API,
+dan dependency minimal telah dipilih serta tercermin pada repository.
+TBD bisnis yang tidak menghalangi demo tetap terbuka. Perilaku sementara
+yang bergantung pada TBD tidak boleh dianggap sebagai keputusan produk
+final; lihat `RUN_DEMO.md`.
+
 ### Keputusan TBD menurut fase kebutuhan
 
   -----------------------------------------------------------------------
-  Topik                               Harus diputuskan sebelum
+  Topik                               Status / target
   ----------------------------------- -----------------------------------
-  Database final                      Phase 2
+  Database final                      Resolved — MySQL locked before Phase 2
 
   Status `Dalam Evaluasi` (`TBD-001`) Phase 5
 
@@ -430,7 +502,7 @@ yang masih ada di tabelnya.
   Aturan penyelesaian (`TBD-014` PRD  Phase 9
   / topik terkait SRS)                
 
-  Kontrak Python                      Phase 8
+  Kontrak Python                      Implemented for local MVP; production hardening remains open
 
   Deployment                          Phase 11
   -----------------------------------------------------------------------
@@ -448,8 +520,15 @@ dibuat.
 
 ### Exit criteria
 
-Pemilik proyek menyetujui keputusan database dan fondasi frontend yang
-diperlukan untuk memulai Phase 1--2.
+Phase 0 selesai untuk fondasi MVP setelah:
+- Cross-reference dan sinkronisasi dokumen diperbarui.
+- MySQL untuk development dan production dikonfirmasi.
+- React Router DOM dan struktur frontend minimal dipilih.
+- Convention response/error API sederhana dicatat.
+- Dependency minimal yang benar-benar digunakan dipilih.
+- TBD bisnis yang belum disetujui tetap terbuka dan asumsi demo diberi label sementara.
+
+Keputusan TBD yang tidak diperlukan untuk alur MVP tidak dipaksakan menjadi final.
 
 ------------------------------------------------------------------------
 
@@ -824,7 +903,7 @@ ulang.
 
 ### Exit criteria
 
-Satu siklus evaluasi → catatan → revisi → pengajuan ulang berjalan
+Satu siklus evaluasi â†’ catatan â†’ revisi â†’ pengajuan ulang berjalan
 sesuai keputusan.
 
 ------------------------------------------------------------------------
@@ -1096,40 +1175,40 @@ disepakati telah diverifikasi.
 Urutan utama:
 
 ``` text
-Phase 0 — Requirement Alignment & Planning
+Phase 0 â€” Requirement Alignment & Planning
     |
     v
-Phase 1 — Project Foundation
+Phase 1 â€” Project Foundation
     |
     v
-Phase 2 — Database Design & Migration
+Phase 2 â€” Database Design & Migration
     |
     v
-Phase 3 — Authentication
+Phase 3 â€” Authentication
     |
     v
-Phase 4 — Organization & Authorization
+Phase 4 â€” Organization & Authorization
     |
     v
-Phase 5 — Program Kerja Management
+Phase 5 â€” Program Kerja Management
     |
     v
-Phase 6 — Evaluation & Revision
+Phase 6 â€” Evaluation & Revision
     |
     v
-Phase 7 — SAW Configuration & Assessment
+Phase 7 â€” SAW Configuration & Assessment
     |
     v
-Phase 8 — Python SAW Integration
+Phase 8 â€” Python SAW Integration
     |
     v
-Phase 9 — Decision & Completion
+Phase 9 â€” Decision & Completion
     |
     v
-Phase 10 — Dashboard & Reporting
+Phase 10 â€” Dashboard & Reporting
     |
     v
-Phase 11 — Quality Assurance & Deployment
+Phase 11 â€” Quality Assurance & Deployment
 ```
 
 Catatan dependency: - Phase 2 dapat mulai setelah keputusan database
@@ -1210,25 +1289,26 @@ pada mesin pemilik proyek.
 
 # 9. Status Pengerjaan
 
-Status awal berdasarkan ZIP audit dan persetujuan roadmap:
+Status implementasi berdasarkan ZIP terbaru 8 November 2026 dan hasil
+uji manual yang dilaporkan pemilik proyek:
 
   Fase                                           Status
-  ---------------------------------------------- ---------------
-  Phase 0 --- Requirement Alignment & Planning   Belum dimulai
-  Phase 1 --- Project Foundation                 Belum dimulai
-  Phase 2 --- Database Design & Migration        Belum dimulai
-  Phase 3 --- Authentication                     Belum dimulai
-  Phase 4 --- Organization & Authorization       Belum dimulai
-  Phase 5 --- Program Kerja Management           Belum dimulai
-  Phase 6 --- Evaluation & Revision              Belum dimulai
-  Phase 7 --- SAW Configuration & Assessment     Belum dimulai
-  Phase 8 --- Python SAW Integration             Belum dimulai
-  Phase 9 --- Decision & Completion              Belum dimulai
-  Phase 10 --- Dashboard & Reporting             Belum dimulai
-  Phase 11 --- Quality Assurance & Deployment    Belum dimulai
+  ---------------------------------------------- -----------------------------------------
+  Phase 0 --- Requirement Alignment & Planning   Selesai untuk fondasi MVP; business TBD terbuka
+  Phase 1 --- Project Foundation                 Implemented; landing dan SPA berhasil dibuka
+  Phase 2 --- Database Design & Migration        Migration dan DemoSeeder berhasil dijalankan
+  Phase 3 --- Authentication                     Login berhasil digunakan; regression test pending
+  Phase 4 --- Organization & Authorization       Implemented; smoke test role/override pending
+  Phase 5 --- Program Kerja Management           Implemented; smoke test CRUD/submit/PIC pending
+  Phase 6 --- Evaluation & Revision              Implemented; smoke test revisi/keputusan pending
+  Phase 7 --- SAW Configuration & Assessment     Implemented; halaman SAW terbuka, multi-alternatif pending
+  Phase 8 --- Python SAW Integration             Perhitungan SAW berhasil dan hasil tersimpan pada demo
+  Phase 9 --- Decision & Completion              Implemented; smoke test end-to-end pending
+  Phase 10 --- Dashboard & Reporting             Implemented; pemeriksaan angka/akses pending
+  Phase 11 --- Quality Assurance & Deployment    Pending; fokus regression dan persiapan demo
 
-Status di atas adalah baseline saat PHASES.md dibuat. Perbarui status
-hanya setelah hasil fase diverifikasi bersama pemilik proyek.
+Status 'Implemented' berarti kode tersedia, bukan seluruh acceptance criteria
+sudah lulus. Jangan mengklaim fitur terverifikasi sebelum smoke test dilakukan.
 
 ------------------------------------------------------------------------
 
@@ -1262,9 +1342,11 @@ bagian kode dipakai oleh alur aplikasi yang nyata.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- PHASES v1.0**
+**Akhir Dokumen --- PHASES v1.2**
 
-Roadmap 12 fase telah disetujui sebagai baseline. Strategi pengujian
-adalah pemeriksaan minimum bertahap setelah setiap fase selesai. Fokus
-proyek adalah aplikasi yang siap dan fungsional sesuai kebutuhan inti,
-tanpa overengineering dan tanpa kode yang tidak digunakan.
+Roadmap 12 fase tetap menjadi baseline. Fondasi MVP dan alur SAW telah
+diimplementasikan; migration/seeder serta perhitungan SAW telah
+dikonfirmasi berhasil oleh pemilik proyek. Fokus berikutnya adalah
+smoke test role, Program Kerja, evaluasi, keputusan, dashboard, lalu
+regression minimum. Jangan menambahkan fitur di luar kebutuhan demo
+sebelum alur wajib stabil.

@@ -2,18 +2,18 @@
 
 namespace Tests\Feature;
 
-// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_the_application_returns_a_successful_response(): void
+    public function test_public_landing_page_renders(): void
     {
-        $response = $this->get('/');
+        $this->withoutVite();
+        $this->get('/')->assertOk()->assertSee('PLC — Manajemen Program Kerja');
+    }
 
-        $response->assertStatus(200);
+    public function test_private_api_requires_login(): void
+    {
+        $this->getJson('/api/v1/me')->assertUnauthorized();
     }
 }

@@ -10,12 +10,13 @@
 
   Dokumen                            System Architecture Document
 
-  Versi                              0.2
+  Versi                              0.4
 
-  Status                             Draft revisi --- mengacu pada PRD
-                                     v0.2 dan SRS v0.2
+  Status                             Draft revisi v0.4 --- keputusan teknis
+                                     fondasi dikunci dan diselaraskan
+                                     dengan audit implementasi MVP
 
-  Tanggal                            4 November 2026
+  Tanggal                            8 November 2026
 
   Dokumen induk kebutuhan            `PRD.md`
 
@@ -41,6 +42,18 @@
                                                   catatan tidak mengubah
                                                   desain teknis sebelum
                                                   diputuskan.
+
+  0.3                     4 November 2026         Mencatat hasil audit
+                                                  konfigurasi database
+                                                  repository; database
+                                                  final tetap terbuka
+                                                  sampai dikonfirmasi.
+
+  0.4                     8 November 2026         Mengunci MySQL untuk
+                                                  development/production;
+                                                  mencatat React Router,
+                                                  API convention, dependency,
+                                                  dan kontrak SAW MVP aktual.
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -690,7 +703,7 @@ parameters, pagination, dan response schema ditetapkan setelah audit
 kode dan API design.
 
 Akses `SAW Results` wajib diperiksa oleh Laravel melalui permission dan
-policy. Berdasarkan PRD/SRS v0.2, Pejabat Teras (termasuk Ketua Umum)
+policy. Berdasarkan PRD/SRS v0.3, Pejabat Teras (termasuk Ketua Umum)
 tercantum memiliki akses melihat ranking. Hak Super Admin, Ketua Bidang,
 dan Pengurus Bidang tetap mengikuti `TBD-015`; jangan memberikan akses
 default sebelum keputusan tersebut ditetapkan.
@@ -754,36 +767,21 @@ dipertahankan tanpa keputusan retensi yang jelas.
 
 ## 8.5 Bentuk Response
 
-Contoh response sukses konseptual:
+**Convention MVP yang digunakan:**
 
-``` json
-{
-  "success": true,
-  "message": "Program kerja berhasil disimpan",
-  "data": {
-    "id": 1,
-    "nama_proker": "Workshop Linux"
-  }
-}
-```
+- Response resource menggunakan object `data`, misalnya
+  `{"data": {...}}` atau `{"data": [...]}`.
+- Response aksi sederhana dapat menggunakan `message`, misalnya
+  `{"message": "Berhasil disimpan."}`.
+- Error validasi mengikuti format Laravel (`message` dan `errors`) dengan
+  HTTP 422.
+- Error autentikasi/otorisasi mengikuti HTTP 401/403.
+- Tidak ada custom `success` boolean atau response wrapper universal.
+- Controller mengembalikan JSON secara langsung; Laravel API Resource
+  belum diperlukan untuk ukuran MVP ini.
 
-Contoh response validasi konseptual:
-
-``` json
-{
-  "success": false,
-  "message": "Data yang diberikan tidak valid",
-  "errors": {
-    "nama_proker": [
-      "Nama program kerja wajib diisi."
-    ]
-  }
-}
-```
-
-Bentuk final harus konsisten dengan pola repository aktual. Jangan
-membuat response wrapper baru jika project sudah memiliki standar yang
-berfungsi tanpa alasan migrasi yang kuat.
+Pertahankan convention sederhana tersebut. Jika response diubah, update
+frontend dan dokumentasi dalam patch yang sama.
 
 ## 8.6 Pagination dan Filtering
 
@@ -1015,14 +1013,18 @@ migration final.
 
 ## 10.6 Database Engine
 
-MySQL tercantum sebagai baseline dokumen proyek. Sebelum
-implementasi: 1. Audit konfigurasi database pada `.env.example` dan file
-konfigurasi. 2. Periksa dependency driver database. 3. Periksa migration
-yang sudah ada. 4. Periksa lingkungan development/deployment. 5.
-Konfirmasi engine yang digunakan.
+**Keputusan LOCKED:** MySQL digunakan untuk development dan production.
+Repository terbaru menggunakan `DB_CONNECTION=mysql` pada `.env.example`,
+menyediakan migration domain PLC, dan pemilik proyek telah berhasil
+menjalankan migration serta `DemoSeeder` pada database `sim_ukm_plc`.
 
-Jangan mengganti database atau membuat migration baru berdasarkan
-asumsi.
+File `database/database.sqlite` yang masih berada di repository adalah
+file kosong dan bukan database aplikasi. File tersebut diabaikan melalui
+`.gitignore`. Konfigurasi `sqlite` masih tersedia sebagai driver bawaan
+Laravel, tetapi tidak dipakai untuk aplikasi PLC.
+
+Migration domain PLC sudah dibuat dan dijalankan. Jangan mengganti
+database engine tanpa persetujuan pemilik proyek.
 
 ------------------------------------------------------------------------
 
@@ -1240,49 +1242,85 @@ existing hanya untuk menyamai contoh ini.
   -----------------------------------------------------------------------------
   ID           Topik                               Status      Catatan
   ------------ ----------------------------------- ----------- ----------------
-  ARC-TBD-01   Database engine final               Open /      MySQL adalah
-                                                   verify      baseline
-                                                               dokumen; audit
-                                                               repository dan
-                                                               deployment.
+  ARC-TBD-01   Database engine final               LOCKED      MySQL untuk
+                                                               development
+                                                               dan production.
 
-  ARC-TBD-02   Versi                               Verify      Ambil dari
-               Laravel/PHP/Node/React/TypeScript               manifest dan
-                                                               lockfile
-                                                               repository.
+  ARC-TBD-02   Versi                               Verified    Laravel 13.40.0,
+               Laravel/PHP/Node/React/TypeScript               Sanctum 4.3.3,
+                                                               React 19.3.1,
+                                                               React Router DOM
+                                                               7.18.5, TypeScript
+                                                               5.9.3, Vite 7.3.7,
+                                                               Tailwind 4.3.5,
+                                                               Axios 1.21.0.
+                                                               PHP requirement
+                                                               ^8.3.
 
-  ARC-TBD-03   Struktur fisik frontend             Verify      Ikuti struktur
-                                                               aktual dan
-                                                               dependency.
+  ARC-TBD-03   Struktur fisik frontend             Verified    React entry
+                                                               `resources/js/app.tsx`,
+                                                               halaman di
+                                                               `pages.tsx`, API
+                                                               client di
+                                                               `api.ts`, style
+                                                               `resources/css/
+                                                               app.css`.
 
-  ARC-TBD-04   Library routing/state               Open /      Jangan menambah
-               management/form                     verify      package sebelum
-                                                               audit.
+  ARC-TBD-04   Library routing/state               Selected    React Router DOM
+               management/form                                 v7 BrowserRouter;
+                                                               belum memakai
+                                                               global state
+                                                               manager atau
+                                                               form library.
 
-  ARC-TBD-05   Struktur fisik Python Service       Open        Tentukan lokasi
-                                                               dan runtime
-                                                               deployment.
+  ARC-TBD-05   Struktur fisik Python Service       Implemented `services/saw-
+                                                               python/server.py`;
+                                                               Python standard
+                                                               library HTTP
+                                                               server, default
+                                                               port 8010.
 
-  ARC-TBD-06   Kontrak HTTP Python                 Open        Endpoint,
-                                                               schema, error,
-                                                               auth service,
-                                                               timeout.
+  ARC-TBD-06   Kontrak HTTP Python                 Implemented POST
+                                                               `/calculate`;
+                                                               JSON criteria dan
+                                                               alternatives;
+                                                               Bearer token;
+                                                               response
+                                                               `{"results":[]}`;
+                                                               Laravel timeout
+                                                               8 detik. Kontrak
+                                                               production masih
+                                                               perlu hardening.
 
-  ARC-TBD-07   Authentication antarservice         Open        Tentukan sebelum
-                                                               production.
+  ARC-TBD-07   Authentication antarservice         Partial     Bearer token
+                                                               melalui
+                                                               `SAW_SERVICE_TOKEN`
+                                                               untuk local MVP;
+                                                               secret management
+                                                               production tetap
+                                                               TBD.
 
-  ARC-TBD-08   Snapshot SAW                        Proposed    Riwayat run
-                                                               locked; bentuk
-                                                               snapshot belum
-                                                               final.
+  ARC-TBD-08   Snapshot SAW                        Implemented `saw_runs.
+                                                               input_snapshot`
+                                                               menyimpan criteria
+                                                               dan alternatives
+                                                               yang dikirim untuk
+                                                               setiap run.
 
-  ARC-TBD-09   Riwayat proses gagal                Open        Log saja atau
-                                                               record status
-                                                               failed.
+  ARC-TBD-09   Riwayat proses gagal                Open        Kegagalan
+                                                               dicatat melalui
+                                                               logging/response;
+                                                               belum dibuat
+                                                               record run gagal.
 
-  ARC-TBD-10   API response envelope final         Open /      Pertahankan pola
-                                                   verify      existing bila
-                                                               tersedia.
+  ARC-TBD-10   API response envelope final         Selected    `data` untuk
+                                                               resource,
+                                                               `message` untuk
+                                                               aksi sederhana,
+                                                               format error
+                                                               default Laravel;
+                                                               tanpa wrapper
+                                                               universal.
 
   ARC-TBD-11   Audit log permanen                  Open        Event, retensi,
                                                                dan akses.
@@ -1443,12 +1481,11 @@ FR-PUB-01 s.d. FR-PUB-05 serta UC-PUB-01.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- ARCHITECTURE v0.2**
+**Akhir Dokumen --- ARCHITECTURE v0.4**
 
-Status: Draft arsitektur v0.2 yang diselaraskan dengan `PRD.md` dan
-`SRS.md` v0.2. Public landing page ditangani oleh React SPA pada
-same-origin tanpa endpoint privat baru. Keputusan `TBD-001`, `TBD-002`,
-dan `TBD-015` belum mengubah model teknis; dampaknya harus ditinjau
-setelah keputusan bisnis dikunci. Struktur fisik, versi dependency,
-database final, dan kontrak Python tetap harus diverifikasi setelah
-repository diaudit.
+Status: Draft arsitektur v0.4 yang diselaraskan dengan `PRD.md` dan
+`SRS.md` v0.4 serta audit repository 8 November 2026. MySQL untuk
+development/production telah dikunci. React Router DOM, convention API,
+dependency frontend minimal, dan kontrak Python SAW local MVP dicatat
+sesuai implementasi. Detail deployment production dan keputusan bisnis
+yang masih TBD tetap terbuka.

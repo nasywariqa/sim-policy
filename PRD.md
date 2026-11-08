@@ -11,13 +11,14 @@
   Modul utama                        Manajemen Program Kerja dan Sistem
                                      Pendukung Keputusan (SPK) SAW
 
-  Versi dokumen                      0.2
+  Versi dokumen                      0.4
 
-  Status                             Draft revisi v0.2 --- kebutuhan
-                                     diperbarui; beberapa keputusan
-                                     bisnis tetap berstatus TBD
+  Status                             Draft revisi v0.4 --- keputusan teknis
+                                     fondasi dan audit implementasi MVP;
+                                     keputusan bisnis yang belum final
+                                     tetap berstatus TBD
 
-  Tanggal                            4 November 2026
+  Tanggal                            8 November 2026
 
   Dokumen sumber                     `LAPORAN PROYEK RPL.docx` dan
                                      keputusan perencanaan dalam
@@ -40,6 +41,22 @@
                                                   `Dalam Evaluasi`, dan
                                                   kebijakan edit/hapus
                                                   catatan tetap TBD.
+
+  0.3                     4 November 2026         Menyelaraskan roadmap
+                                                  implementasi dengan
+                                                  `PHASES.md`; mencatat
+                                                  hasil audit konfigurasi
+                                                  database repository;
+                                                  menegaskan ID TBD
+                                                  bersifat lokal per
+                                                  dokumen.
+
+  0.4                     8 November 2026         Mengunci MySQL untuk
+                                                  development dan production;
+                                                  memperbarui status
+                                                  fondasi teknis berdasarkan
+                                                  implementasi MVP dan audit
+                                                  repository terbaru.
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -624,13 +641,19 @@ program kerja selesai.
   Komputasi SAW   Python
   Integrasi       REST API
 
-MySQL adalah baseline dokumen proyek, tetapi status pilihan database
-final harus diverifikasi terhadap repository dan kebutuhan deployment
-sebelum migration dibuat.
+**Keputusan LOCKED:** MySQL digunakan untuk development dan production.
+Laravel Eloquent dan migration menjadi akses data utama. SQLite tidak
+digunakan sebagai database aplikasi.
 
-Versi Laravel, PHP, Node.js, React, TypeScript, Vite, serta dependency
-aktual harus diperiksa dari file konfigurasi repository. Jangan
-mengasumsikan versi.
+**Audit repository terbaru (ZIP 8 November 2026):** `.env.example`
+menggunakan `DB_CONNECTION=mysql`; migration domain PLC tersedia dan
+pemilik proyek telah mengonfirmasi migration serta `DemoSeeder` berhasil
+dijalankan pada database `sim_ukm_plc`. File `database/database.sqlite`
+yang masih ada merupakan file kosong bawaan dan tidak menjadi database
+aplikasi. Keputusan ini menutup `PRD TBD-016`.
+
+Versi dependency aktual dicatat pada `ARCHITECTURE.md` berdasarkan
+`composer.lock` dan `package-lock.json`.
 
 ## 4.3 Batas Tanggung Jawab
 
@@ -862,6 +885,12 @@ setelah audit repository dan UI/UX planning.
 Bagian ini sengaja dipertahankan agar AI coding agent tidak menganggap
 rekomendasi sebagai keputusan final.
 
+**Catatan identitas TBD:** nomor TBD hanya unik di dalam dokumen
+masing-masing. Nomor yang sama pada PRD, SRS, ARCHITECTURE, atau DESIGN
+tidak otomatis merujuk pada topik yang sama. Gunakan nama topik dan
+cross-reference pada `PHASES.md`, bukan nomor saja, ketika menyelaraskan
+keputusan antardokumen.
+
   -----------------------------------------------------------------------
   ID                      Topik                   Pilihan yang masih
                                                   perlu diputuskan
@@ -932,9 +961,10 @@ rekomendasi sebagai keputusan final.
                                                   Bidang, dan Pengurus
                                                   Bidang perlu diputuskan
 
-  TBD-016                 Database final          Verifikasi MySQL
-                                                  terhadap repository dan
-                                                  lingkungan deployment
+  TBD-016                 Database final          **LOCKED:** MySQL untuk
+                                                  development dan
+                                                  production. Selesai
+                                                  dikonfirmasi 8 Nov 2026.
 
   TBD-017                 Deployment              Hosting, web server,
                                                   domain, dan konfigurasi
@@ -1049,57 +1079,32 @@ pengumpulan proyek.
 
 ------------------------------------------------------------------------
 
-# 10. Urutan Implementasi yang Direkomendasikan
+# 10. Roadmap Implementasi
 
-Urutan berikut adalah roadmap awal dan dapat disesuaikan setelah audit
-ZIP repository.
+Urutan implementasi yang disetujui pemilik proyek dikelola pada
+`PHASES.md` (Development Roadmap & Work Breakdown). `PHASES.md` menjadi
+acuan urutan fase, dependency, deliverable, pemeriksaan minimum, dan
+status pengerjaan. PRD ini tetap menjadi sumber kebutuhan produk dan
+tidak boleh ditafsirkan sebagai pengganti roadmap tersebut.
 
-  -----------------------------------------------------------------------
-  Tahap                   Modul                   Hasil yang diharapkan
-  ----------------------- ----------------------- -----------------------
-  0                       Repository audit        Peta struktur, versi,
-                                                  fitur yang sudah ada,
-                                                  dan gap
+Roadmap yang disetujui terdiri dari:
 
-  1                       Project foundation      Laravel dan React +
-                                                  TypeScript terintegrasi
-                                                  dalam monorepo
+1. Phase 0 — Requirement Alignment & Planning.
+2. Phase 1 — Project Foundation.
+3. Phase 2 — Database Design & Migration.
+4. Phase 3 — Authentication.
+5. Phase 4 — Organization & Authorization.
+6. Phase 5 — Program Kerja Management.
+7. Phase 6 — Evaluation & Revision.
+8. Phase 7 — SAW Configuration & Assessment.
+9. Phase 8 — Python SAW Integration.
+10. Phase 9 — Decision & Completion.
+11. Phase 10 — Dashboard & Reporting.
+12. Phase 11 — Quality Assurance & Deployment.
 
-  2                       Authentication          Login, logout, session,
-                                                  dan identitas pengguna
-
-  3                       Authorization           Role, permission,
-                                                  membership scope,
-                                                  middleware, policy
-
-  4                       Master data             Periode, bidang,
-                                                  pengguna, keanggotaan
-
-  5                       Program kerja           CRUD, draft, pengajuan,
-                                                  PIC
-
-  6                       Evaluasi                Catatan, revisi,
-                                                  keputusan dan riwayat
-
-  7                       SAW configuration       Kriteria dan bobot per
-                                                  periode
-
-  8                       SAW assessment          Penilaian dan validasi
-                                                  kelengkapan
-
-  9                       Python integration      Perhitungan dan
-                                                  penyimpanan riwayat
-
-  10                      Dashboard and reporting Tampilan informasi
-                                                  sesuai role
-
-  11                      Testing and             Pengujian alur
-                          stabilization           end-to-end dan
-                                                  perbaikan
-  -----------------------------------------------------------------------
-
-Tahap yang menjadi dependency harus diselesaikan dan diverifikasi
-sebelum modul yang bergantung padanya dikembangkan.
+Roadmap ini tidak mengubah status LOCKED, BASELINE, PROPOSED, atau TBD
+pada requirement. Fitur yang bergantung pada keputusan TBD hanya boleh
+diimplementasikan setelah keputusan terkait dikonfirmasi.
 
 ------------------------------------------------------------------------
 
@@ -1119,11 +1124,11 @@ belum terkunci.
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- PRD v0.2**
+**Akhir Dokumen --- PRD v0.4**
 
-Status dokumen: Draft revisi v0.2. Landing page publik telah dimasukkan
-ke ruang lingkup. `TBD-001` (status `Dalam Evaluasi`), `TBD-002`
-(edit/hapus catatan), dan `TBD-015` (visibilitas ranking per role) tetap
-terbuka dan harus diputuskan sebelum requirement terkait
-diimplementasikan. Seluruh dokumen tetap perlu diverifikasi terhadap
-repository setelah audit ZIP.
+Status dokumen: Draft revisi v0.4. Keputusan database MySQL untuk
+development dan production telah dikunci. `TBD-001` (status `Dalam
+Evaluasi`), `TBD-002` (edit/hapus catatan), dan `TBD-015` (visibilitas
+ranking untuk role selain Pejabat Teras) tetap terbuka. Perilaku MVP yang
+bergantung pada TBD dijelaskan sebagai asumsi sementara dalam
+`RUN_DEMO.md`, bukan keputusan produk final.

@@ -11,13 +11,13 @@
   Dokumen                            Software Requirements
                                      Specification (SRS)
 
-  Versi                              0.2
+  Versi                              0.4
 
-  Status                             Draft revisi --- diturunkan dari
-                                     PRD v0.2, laporan proyek, dan
-                                     keputusan desain yang dikunci
+  Status                             Draft revisi v0.4 --- sinkronisasi
+                                     keputusan MySQL, kontrak Python MVP,
+                                     dan audit implementasi terbaru
 
-  Tanggal                            4 November 2026
+  Tanggal                            8 November 2026
 
   Dokumen induk                      `PRD.md`
 
@@ -40,6 +40,21 @@
                                                   dependency TBD untuk
                                                   ranking, status, dan
                                                   catatan evaluasi.
+
+  0.3                     4 November 2026         Memperbarui referensi
+                                                  PRD; mencatat baseline
+                                                  SQLite pada repository
+                                                  tanpa mengubah keputusan
+                                                  database final; dan
+                                                  memperjelas bahwa ID
+                                                  TBD bersifat lokal
+                                                  per dokumen.
+
+  0.4                     8 November 2026         Mengunci MySQL untuk
+                                                  development/production;
+                                                  mencatat kontrak Python
+                                                  SAW MVP dan status audit
+                                                  implementasi terbaru.
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
@@ -139,8 +154,10 @@ keanggotaan, dan periode kepengurusan.
 
 ## 1.5 Referensi
 
-1.  `PRD.md` --- Product Requirements Document versi 0.1.
-2.  `LAPORAN PROYEK RPL.docx`, khususnya:
+1.  `PRD.md` --- Product Requirements Document versi 0.3.
+2.  `PHASES.md` --- roadmap dan urutan implementasi yang disetujui;
+    dokumen ini mengatur sequencing, bukan menggantikan requirement SRS.
+3.  `LAPORAN PROYEK RPL.docx`, khususnya:
     -   BAB I: latar belakang, rumusan masalah, batasan, tujuan, dan
         manfaat.
     -   BAB III bagian 3.1: arsitektur sistem.
@@ -218,9 +235,12 @@ Teras dan memperoleh permission tambahan yang relevan.
 
   Backend                            Laravel.
 
-  Database                           MySQL sebagai baseline dokumen;
-                                     versi dan konfigurasi harus
-                                     diverifikasi dari repository.
+  Database                           MySQL sebagai baseline dokumen.
+                                     Snapshot repository Phase 0
+                                     menggunakan SQLite pada
+                                     `.env.example` dan fallback
+                                     konfigurasi; database final
+                                     tetap TBD.
 
   SAW service                        Python melalui REST API internal.
 
@@ -1595,11 +1615,14 @@ memberikan keputusan.
   TBD-015                 Visibilitas ranking     Open
                           untuk setiap role       
 
-  TBD-016                 Detail kontrak API      Open
-                          Python                  
+  TBD-016                 Detail kontrak API      Implemented for local
+                          Python                  MVP; production hardening
+                                                  remains open
 
-  TBD-017                 Versi dan konfigurasi   Verify against
-                          database final          repository
+  TBD-017                 Versi dan konfigurasi   MySQL development dan
+                          database final          production LOCKED;
+                                                  dependency versions
+                                                  verified from lockfiles
 
   TBD-018                 Topologi production,    Open
                           hosting, dan domain     
@@ -1622,6 +1645,20 @@ memberikan keputusan.
 Klarifikasi `TBD-015`: Pejabat Teras, termasuk Ketua Umum, tercantum
 memiliki akses ranking pada matriks kewenangan PRD. Hak Super Admin,
 Ketua Bidang, dan Pengurus Bidang belum ditetapkan.
+
+**Catatan identitas TBD:** nomor TBD hanya unik di dalam dokumen ini.
+Nomor yang sama pada PRD atau ARCHITECTURE tidak selalu membahas topik
+yang sama. Contoh penting: `SRS TBD-013` membahas pergantian jabatan
+dalam periode yang sama, sedangkan `PRD TBD-013` membahas aktor dan
+pengulangan keputusan pleno. `SRS TBD-016` membahas kontrak API Python,
+sedangkan `PRD TBD-016` membahas database final. Gunakan cross-reference
+berdasarkan topik pada `PHASES.md`.
+
+Keputusan database telah dikonfirmasi pemilik proyek: MySQL digunakan
+untuk development dan production. `.env.example` pada repository terbaru
+menggunakan `DB_CONNECTION=mysql`, dan pemilik proyek telah menjalankan
+migration serta `DemoSeeder` dengan sukses pada database `sim_ukm_plc`.
+File SQLite kosong yang masih ada bukan database aplikasi.
 
 AI coding agent harus meminta klarifikasi jika TBD memengaruhi fitur
 yang sedang dikerjakan dan tidak dapat ditangani tanpa menetapkan aturan
@@ -1723,7 +1760,8 @@ Status yang boleh digunakan: - `Implemented` - `Partially Implemented` -
 
 ------------------------------------------------------------------------
 
-**Akhir Dokumen --- SRS v0.2**
+**Akhir Dokumen --- SRS v0.4**
 
-Status: Draft revisi v0.2 yang diturunkan dari PRD v0.2, laporan proyek,
-dan keputusan perencanaan. TBD-001, TBD-002, dan TBD-015 tetap terbuka.
+Status: Draft revisi v0.4 yang diturunkan dari PRD v0.4, laporan proyek,
+dan audit implementasi MVP. TBD-001, TBD-002, serta bagian visibilitas
+ranking di luar baseline Pejabat Teras tetap terbuka.
