@@ -29,3 +29,6 @@ Thumbs.db
 # Python generated cache
 __pycache__/
 *.pyc
+
+# Local project audit archive
+/sim-ukm-plc-current.zip
